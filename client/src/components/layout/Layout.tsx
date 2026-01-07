@@ -1,14 +1,16 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Heart, ExternalLink } from "lucide-react";
+import { Menu, X, Instagram, Heart, ExternalLink, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import logoImage from "@assets/generated_images/minimalist_logo_with_horizon_line_and_rising_arc.png";
 import rccgLogo from "@assets/image_1767817496066.png";
+import { useLanguage } from "@/lib/i18n";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
+  const { t, language, setLanguage } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,12 +21,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, []);
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/cohorts", label: "Cohorts" },
-    { href: "/resources", label: "Resources" },
-    { href: "/events", label: "English Café" },
-    { href: "/community", label: "Community" },
-    { href: "/dashboard", label: "My Cohort" },
+    { href: "/", label: t("nav.home") },
+    { href: "/cohorts", label: t("nav.cohorts") },
+    { href: "/resources", label: t("nav.resources") },
+    { href: "/events", label: t("nav.events") },
+    { href: "/community", label: t("nav.community") },
+    { href: "/dashboard", label: t("nav.dashboard") },
   ];
 
   return (
@@ -50,7 +52,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href}>
                 <a
@@ -64,9 +66,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </a>
               </Link>
             ))}
+            
+            <div className="h-6 w-px bg-border mx-2" />
+            
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setLanguage(language === 'en' ? 'pt' : 'en')}
+              className="font-bold flex items-center gap-2 hover:bg-primary/5"
+            >
+              <Globe className="w-4 h-4" />
+              {language === 'en' ? 'PT' : 'EN'}
+            </Button>
+
             <Link href="/cohorts">
               <Button size="sm" className="rounded-full px-6 bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all">
-                Join Now
+                {t("nav.join")}
               </Button>
             </Link>
           </nav>
@@ -87,8 +102,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </a>
                   </Link>
                 ))}
+                
+                <Button 
+                  variant="outline"
+                  onClick={() => setLanguage(language === 'en' ? 'pt' : 'en')}
+                  className="justify-start gap-3"
+                >
+                   <Globe className="w-5 h-5" />
+                   {language === 'en' ? 'Mudar para Português' : 'Switch to English'}
+                </Button>
+
                 <Link href="/cohorts">
-                  <Button className="w-full rounded-full bg-primary text-white">Join a Cohort</Button>
+                  <Button className="w-full rounded-full bg-primary text-white">{t("nav.join")}</Button>
                 </Link>
               </div>
             </SheetContent>
@@ -110,30 +135,30 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                <span className="font-heading font-bold text-lg">Horizonte</span>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
-              A friendly place to practice English with real people—online during the week, and in Brasília through English Café meetups.
+              {t("footer.desc")}
             </p>
           </div>
 
           <div>
-            <h4 className="font-heading font-bold mb-6">Community</h4>
+            <h4 className="font-heading font-bold mb-6">{t("footer.col.community")}</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/80">
-              <li><Link href="/cohorts"><a className="hover:text-white transition-colors">Join a Cohort</a></Link></li>
-              <li><Link href="/events"><a className="hover:text-white transition-colors">English Café</a></Link></li>
-              <li><Link href="/community"><a className="hover:text-white transition-colors">Community Rules</a></Link></li>
+              <li><Link href="/cohorts"><a className="hover:text-white transition-colors">{t("footer.link.cohorts")}</a></Link></li>
+              <li><Link href="/events"><a className="hover:text-white transition-colors">{t("footer.link.cafe")}</a></Link></li>
+              <li><Link href="/community"><a className="hover:text-white transition-colors">{t("footer.link.rules")}</a></Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-heading font-bold mb-6">Resources</h4>
+            <h4 className="font-heading font-bold mb-6">{t("footer.col.resources")}</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/80">
-              <li><Link href="/resources"><a className="hover:text-white transition-colors">Free Lessons</a></Link></li>
-              <li><Link href="/resources"><a className="hover:text-white transition-colors">Student Guide</a></Link></li>
-              <li><Link href="/faq"><a className="hover:text-white transition-colors">FAQ</a></Link></li>
+              <li><Link href="/resources"><a className="hover:text-white transition-colors">{t("footer.link.free")}</a></Link></li>
+              <li><Link href="/resources"><a className="hover:text-white transition-colors">{t("footer.link.guide")}</a></Link></li>
+              <li><Link href="/faq"><a className="hover:text-white transition-colors">{t("footer.link.faq")}</a></Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-heading font-bold mb-6">Connect</h4>
+            <h4 className="font-heading font-bold mb-6">{t("footer.col.connect")}</h4>
             <div className="flex gap-4 mb-4">
               <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                 <Instagram className="w-5 h-5" />
@@ -160,16 +185,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                  rel="noopener noreferrer" 
                  className="flex items-center gap-3 group transition-opacity hover:opacity-80"
                >
-                 <span className="font-medium text-foreground uppercase tracking-wider text-[10px]">Powered by</span>
+                 <span className="font-medium text-foreground uppercase tracking-wider text-[10px]">{t("footer.powered")}</span>
                  <img src={rccgLogo} alt="The Redeemed Christian Church of God Brazil" className="h-8 w-auto" />
                  <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors" />
                </a>
 
                {/* Right: Legal */}
                <div className="flex gap-6">
-                 <p>© 2026 Horizonte English Community.</p>
-                 <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-                 <a href="#" className="hover:text-foreground transition-colors">Terms</a>
+                 <p>{t("footer.rights")}</p>
+                 <a href="#" className="hover:text-foreground transition-colors">{t("footer.privacy")}</a>
+                 <a href="#" className="hover:text-foreground transition-colors">{t("footer.terms")}</a>
                </div>
              </div>
           </div>

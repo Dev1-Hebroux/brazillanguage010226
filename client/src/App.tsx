@@ -10,6 +10,7 @@ import Resources from "@/pages/Resources";
 import Community from "@/pages/Community";
 import Events from "@/pages/Events";
 import CohortDashboard from "@/pages/CohortDashboard";
+import { LanguageProvider } from "@/lib/i18n";
 
 function Router() {
   return (
@@ -28,10 +29,12 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <LanguageProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }

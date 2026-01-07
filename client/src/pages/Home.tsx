@@ -6,8 +6,11 @@ import { Link } from "wouter";
 import heroImage from "@assets/generated_images/vibrant_brazilian_street_scene_with_happy_diverse_people.png";
 import textureImage from "@assets/generated_images/brasilia_modernist_architecture_under_blue_sky.png";
 import studentImage from "@assets/generated_images/young_woman_speaking_confidently_outdoors.png";
+import { useLanguage } from "@/lib/i18n";
 
 export default function Home() {
+  const { t } = useLanguage();
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -17,28 +20,28 @@ export default function Home() {
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent-foreground font-bold text-sm border border-accent/40">
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_10px_hsl(var(--accent))]" />
-                New Cohorts starting soon in Brasília
+                {t("home.hero.badge")}
               </div>
               
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold leading-[1.1] text-foreground drop-shadow-sm">
-                Speak. <br/>
-                <span className="text-primary">Connect.</span> <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-yellow-500">Grow.</span>
+                {t("home.hero.title.speak")} <br/>
+                <span className="text-primary">{t("home.hero.title.connect")}</span> <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-yellow-500">{t("home.hero.title.grow")}</span>
               </h1>
               
               <p className="text-xl text-foreground/80 font-medium md:max-w-md leading-relaxed">
-                A friendly place to practice English with real people—online during the week, and in Brasília through English Café meetups.
+                {t("home.hero.subtitle")}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/cohorts">
                   <Button size="lg" className="rounded-full text-lg h-14 px-8 bg-primary hover:bg-primary/90 text-white shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 font-bold ring-2 ring-white/50">
-                    Join a Cohort
+                    {t("home.hero.btn.cohort")}
                   </Button>
                 </Link>
                 <Link href="/events">
                    <Button variant="outline" size="lg" className="rounded-full text-lg h-14 px-8 border-2 border-primary/20 hover:border-primary text-primary hover:bg-primary/5 transition-colors font-bold">
-                    Join English Café
+                    {t("home.hero.btn.cafe")}
                   </Button>
                 </Link>
               </div>
@@ -52,7 +55,7 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <p>Join 200+ learners in our community</p>
+                <p>{t("home.hero.join_count")}</p>
               </div>
             </div>
             
@@ -72,9 +75,9 @@ export default function Home() {
                    <div className="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center shadow-inner">
                      <MessageCircle size={20} />
                    </div>
-                   <span className="font-bold text-base text-foreground">Safe Space</span>
+                   <span className="font-bold text-base text-foreground">{t("home.hero.safe_space")}</span>
                  </div>
-                 <p className="text-sm font-medium text-muted-foreground">"I finally spoke without feeling judged!"</p>
+                 <p className="text-sm font-medium text-muted-foreground">{t("home.hero.testimonial")}</p>
               </div>
             </div>
           </div>
@@ -89,30 +92,30 @@ export default function Home() {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-heading font-bold mb-6 text-foreground">How it works</h2>
-            <p className="text-foreground/70 text-lg font-medium">We’ve designed a simple rhythm to help you improve without overwhelming your schedule.</p>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold mb-6 text-foreground">{t("home.how.title")}</h2>
+            <p className="text-foreground/70 text-lg font-medium">{t("home.how.subtitle")}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 step: "01",
-                title: "Join a cohort",
-                desc: "Pick a track that fits your level and schedule. Small groups, friendly vibes.",
+                title: t("home.how.step1.title"),
+                desc: t("home.how.step1.desc"),
                 icon: <Users className="w-8 h-8 text-white" />,
                 color: "bg-blue-600"
               },
               {
                 step: "02",
-                title: "Practice together",
-                desc: "Use simple daily prompts and voice notes to build a habit of speaking.",
+                title: t("home.how.step2.title"),
+                desc: t("home.how.step2.desc"),
                 icon: <MessageCircle className="w-8 h-8 text-white" />,
                 color: "bg-yellow-500"
               },
               {
                 step: "03",
-                title: "Speak with confidence",
-                desc: "Join weekly Conversation Circles and meetups to use what you learned.",
+                title: t("home.how.step3.title"),
+                desc: t("home.how.step3.desc"),
                 icon: <Globe className="w-8 h-8 text-white" />,
                 color: "bg-green-600"
               }
@@ -159,26 +162,26 @@ export default function Home() {
             </div>
             
             <div className="order-1 md:order-2 space-y-6">
-              <div className="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-lg font-bold text-sm mb-2">Our Mission</div>
-              <h2 className="text-4xl md:text-5xl font-heading font-bold text-primary">About Us</h2>
+              <div className="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-lg font-bold text-sm mb-2">{t("home.about.mission")}</div>
+              <h2 className="text-4xl md:text-5xl font-heading font-bold text-primary">{t("home.about.title")}</h2>
               <div className="prose prose-lg text-foreground/80 font-medium">
                 <p>
-                  Horizonte English Community exists to help people grow in confidence and opportunity through English.
+                  {t("home.about.p1")}
                 </p>
                 <p>
-                  We are a community shaped by service and encouragement. Many of our volunteers are Christians, and we believe love should look practical. English is open to everyone, and faith conversations are always optional and respectful.
+                  {t("home.about.p2")}
                 </p>
               </div>
               
               <div className="bg-white p-8 rounded-2xl border-l-4 border-accent shadow-md">
-                <h4 className="font-heading font-bold text-xl mb-3 text-foreground">Do I have to be Christian?</h4>
-                <p className="text-foreground/80 font-medium text-lg">No. Everyone is welcome. Our English community is open to all backgrounds and beliefs.</p>
+                <h4 className="font-heading font-bold text-xl mb-3 text-foreground">{t("home.about.faq.title")}</h4>
+                <p className="text-foreground/80 font-medium text-lg">{t("home.about.faq.desc")}</p>
               </div>
               
               <div className="pt-4">
                  <Link href="/community">
                    <Button variant="link" className="text-primary font-bold text-lg p-0 h-auto hover:no-underline group">
-                     Read our Community Values <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform text-accent" />
+                     {t("home.about.values")} <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform text-accent" />
                    </Button>
                  </Link>
               </div>
@@ -193,19 +196,19 @@ export default function Home() {
         <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-l from-green-500/20 to-transparent"></div>
         
         <div className="container mx-auto px-4 md:px-6 max-w-4xl text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-heading font-bold mb-8 text-white drop-shadow-md">Ready to start your journey?</h2>
+          <h2 className="text-4xl md:text-6xl font-heading font-bold mb-8 text-white drop-shadow-md">{t("home.cta.title")}</h2>
           <p className="text-white/90 text-xl md:text-2xl mb-12 font-medium max-w-2xl mx-auto">
-            Join a supportive community where mistakes are just part of the process.
+            {t("home.cta.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
              <Link href="/cohorts">
                <Button size="lg" className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 font-bold h-16 px-10 text-lg shadow-xl hover:scale-105 transition-transform">
-                 Browse Cohorts
+                 {t("home.cta.btn.browse")}
                </Button>
              </Link>
              <Link href="/resources">
                <Button variant="outline" size="lg" className="rounded-full border-2 border-white/40 hover:bg-white/10 text-white h-16 px-10 text-lg backdrop-blur-sm font-bold">
-                 Try a Free Lesson
+                 {t("home.cta.btn.free")}
                </Button>
              </Link>
           </div>
