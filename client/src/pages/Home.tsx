@@ -17,45 +17,58 @@ export default function Home() {
       <section className="relative pt-12 pb-24 md:pt-24 md:pb-32 overflow-hidden bg-gradient-to-br from-background via-white to-secondary/10">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent-foreground font-bold text-sm border border-accent/40">
-                <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_10px_hsl(var(--accent))]" />
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 relative z-10">
+              <div className="absolute -left-20 -top-20 w-64 h-64 bg-blue-500/20 rounded-full blur-[100px] pointer-events-none" />
+              
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-foreground font-bold text-sm border border-white/20 shadow-lg ring-1 ring-black/5 hover:scale-105 transition-transform cursor-default">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
                 {t("home.hero.badge")}
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold leading-[1.1] text-foreground drop-shadow-sm">
-                {t("home.hero.title.speak")} <br/>
-                <span className="text-primary">{t("home.hero.title.connect")}</span> <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-yellow-500">{t("home.hero.title.grow")}</span>
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-heading font-black leading-[0.95] tracking-tight">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-blue-800 drop-shadow-sm">
+                  {t("home.hero.title.speak")}
+                </span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-br from-green-500 to-emerald-700 drop-shadow-sm ml-4 md:ml-12">
+                  {t("home.hero.title.connect")}
+                </span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-orange-500 drop-shadow-sm ml-8 md:ml-24 relative">
+                  {t("home.hero.title.grow")}
+                  <svg className="absolute -bottom-4 -right-8 w-24 h-24 text-yellow-400/30 -z-10" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 0 L61 35 L97 35 L68 57 L79 91 L50 70 L21 91 L32 57 L3 35 L39 35 Z" />
+                  </svg>
+                </span>
               </h1>
               
-              <p className="text-xl text-foreground/80 font-medium md:max-w-md leading-relaxed">
+              <p className="text-xl md:text-2xl text-foreground/80 font-medium md:max-w-lg leading-relaxed drop-shadow-sm bg-white/30 backdrop-blur-sm p-4 rounded-2xl border border-white/40">
                 {t("home.hero.subtitle")}
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <Link href="/cohorts">
-                  <Button size="lg" className="rounded-full text-lg h-14 px-8 bg-primary hover:bg-primary/90 text-white shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 font-bold ring-2 ring-white/50">
+                  <Button size="lg" className="rounded-full text-lg h-16 px-10 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 font-bold border-2 border-white/20">
                     {t("home.hero.btn.cohort")}
                   </Button>
                 </Link>
                 <Link href="/events">
-                   <Button variant="outline" size="lg" className="rounded-full text-lg h-14 px-8 border-2 border-primary/20 hover:border-primary text-primary hover:bg-primary/5 transition-colors font-bold">
+                   <Button variant="outline" size="lg" className="rounded-full text-lg h-16 px-10 bg-white/50 backdrop-blur-md border-2 border-white hover:bg-white text-foreground hover:text-primary transition-all font-bold shadow-lg">
                     {t("home.hero.btn.cafe")}
                   </Button>
                 </Link>
               </div>
               
-              <div className="flex items-center gap-4 text-sm font-medium text-foreground/70 pt-4">
+              <div className="flex items-center gap-4 text-sm font-bold text-foreground/70 pt-4 bg-white/20 backdrop-blur-sm p-3 rounded-full w-fit border border-white/30">
                 <div className="flex -space-x-3">
                   {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden shadow-sm">
-                       {/* Placeholder for avatars, or could use random mock avatars if we had them. Using colors for now */}
-                       <div className={`w-full h-full bg-gradient-to-tr from-blue-400 to-green-400`} />
+                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden shadow-md ring-2 ring-white/50">
+                       <div className={`w-full h-full bg-gradient-to-tr from-blue-400 via-green-400 to-yellow-400 opacity-80`} />
                     </div>
                   ))}
                 </div>
-                <p>{t("home.hero.join_count")}</p>
+                <p className="pr-2">{t("home.hero.join_count")}</p>
               </div>
             </div>
             
