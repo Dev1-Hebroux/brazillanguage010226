@@ -46,7 +46,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                  <img src={logoImage} alt="Horizonte Logo" className="w-full h-full object-cover" />
               </div>
               <span className={`font-heading font-bold text-xl tracking-tight transition-colors ${isScrolled ? "text-primary" : "text-primary"}`}>
-                Horizonte
+                Horizonte Café
               </span>
             </a>
           </Link>
