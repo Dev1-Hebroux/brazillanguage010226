@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Play, Download, FileText, MessageCircle } from "lucide-react";
+import { Play, Download, FileText, MessageCircle, CheckCircle } from "lucide-react";
 
 export default function Resources() {
   return (
@@ -10,7 +10,7 @@ export default function Resources() {
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-heading font-bold mb-6 text-primary">Resources</h1>
             <p className="text-xl text-muted-foreground">
-              Sample materials from our "Foundations" track. See how simple and practical our lessons are.
+              Placement tools, free lessons, and downloads to help you start your journey.
             </p>
           </div>
         </div>
@@ -22,6 +22,42 @@ export default function Resources() {
           {/* Main Content Area */}
           <div className="space-y-12">
             
+            {/* Placement Section */}
+            <section className="space-y-6">
+              <h2 className="text-2xl font-heading font-bold text-foreground">Where should I start?</h2>
+              <div className="bg-white rounded-2xl border border-border shadow-sm p-8">
+                <p className="text-lg text-muted-foreground mb-6">Answer these simple questions to find your best fit. Be honest—there is no wrong answer!</p>
+                
+                <div className="space-y-4 mb-8">
+                   <div className="p-4 bg-muted/20 rounded-xl">
+                     <p className="font-bold mb-3">1. Can you introduce yourself confidently in English?</p>
+                     <div className="flex gap-3">
+                       <Button variant="outline" size="sm" className="rounded-full">Yes, easily</Button>
+                       <Button variant="outline" size="sm" className="rounded-full">Sometimes</Button>
+                       <Button variant="outline" size="sm" className="rounded-full">Not yet</Button>
+                     </div>
+                   </div>
+                   <div className="p-4 bg-muted/20 rounded-xl">
+                     <p className="font-bold mb-3">2. Can you order food or ask for directions?</p>
+                     <div className="flex gap-3">
+                       <Button variant="outline" size="sm" className="rounded-full">Yes, usually</Button>
+                       <Button variant="outline" size="sm" className="rounded-full">With difficulty</Button>
+                       <Button variant="outline" size="sm" className="rounded-full">I use a translator</Button>
+                     </div>
+                   </div>
+                </div>
+
+                <div className="flex items-center gap-4 bg-primary/5 p-4 rounded-xl border border-primary/10">
+                   <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-bold">?</div>
+                   <div>
+                     <p className="font-bold text-primary">Not sure?</p>
+                     <p className="text-sm text-muted-foreground">Send us a short voice note (30 seconds) introducing yourself. We will recommend the perfect group.</p>
+                   </div>
+                   <Button size="sm" className="ml-auto bg-green-600 hover:bg-green-700 text-white rounded-full">WhatsApp Us</Button>
+                </div>
+              </div>
+            </section>
+
             {/* Week 1 Lesson Demo */}
             <section className="space-y-6">
               <div className="flex items-center gap-3 mb-6">
@@ -70,21 +106,6 @@ export default function Resources() {
                 </div>
               </div>
             </section>
-
-             {/* Week 2 Preview */}
-             <section className="space-y-6 opacity-60">
-              <div className="flex items-center gap-3 mb-6">
-                 <div className="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-bold">2</div>
-                 <h2 className="text-2xl font-heading font-bold">Week 2: Daily Life & Routines</h2>
-              </div>
-              <div className="p-8 border border-dashed border-border rounded-2xl flex items-center justify-center bg-muted/20">
-                <div className="text-center">
-                  <p className="font-bold text-muted-foreground mb-2">Join a cohort to unlock full curriculum</p>
-                  <Button variant="outline">View Cohorts</Button>
-                </div>
-              </div>
-            </section>
-
           </div>
 
           {/* Sidebar */}
@@ -93,23 +114,24 @@ export default function Resources() {
               <h3 className="font-heading font-bold text-xl mb-4">Student Guide</h3>
               <p className="text-primary-foreground/80 mb-6 text-sm">Everything you need to know about our community rules, schedules, and tips for success.</p>
               <Button className="w-full bg-white text-primary hover:bg-white/90 font-bold rounded-full">
-                <Download className="w-4 h-4 mr-2" /> Download PDF
+                <Download className="w-4 h-4 mr-2" /> Download Guide PDF
               </Button>
             </div>
 
             <div className="p-6 border border-border rounded-2xl bg-white shadow-sm">
-              <h3 className="font-heading font-bold text-lg mb-4">Helpful Links</h3>
+              <h3 className="font-heading font-bold text-lg mb-4">Useful Downloads</h3>
               <ul className="space-y-3">
                  {[
-                   "Pronunciation Tools",
-                   "Dictionary App",
-                   "Flashcard Deck",
+                   "Pronunciation Cheat Sheet",
+                   "100 Most Common Verbs",
+                   "Conversation Starters",
                    "Community Playlist"
                  ].map(link => (
                    <li key={link}>
-                     <a href="#" className="flex items-center text-muted-foreground hover:text-primary transition-colors text-sm">
-                       <FileText className="w-4 h-4 mr-2" />
+                     <a href="#" className="flex items-center text-muted-foreground hover:text-primary transition-colors text-sm group">
+                       <FileText className="w-4 h-4 mr-2 group-hover:text-accent" />
                        {link}
+                       <Download className="w-3 h-3 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                      </a>
                    </li>
                  ))}

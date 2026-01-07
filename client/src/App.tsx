@@ -9,6 +9,7 @@ import Cohorts from "@/pages/Cohorts";
 import Resources from "@/pages/Resources";
 import Community from "@/pages/Community";
 import Events from "@/pages/Events";
+import CohortDashboard from "@/pages/CohortDashboard";
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/resources" component={Resources} />
       <Route path="/community" component={Community} />
       <Route path="/events" component={Events} />
+      <Route path="/dashboard" component={CohortDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
