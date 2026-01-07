@@ -19,70 +19,70 @@ export default function Events() {
         </div>
         
         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-white font-bold text-sm mb-6 uppercase tracking-wider border border-white/30">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-white font-bold text-sm mb-6 uppercase tracking-wider border border-white/20 shadow-lg">
             <Sun className="w-4 h-4 text-yellow-300" />
             In-Person Meetups
           </div>
-          <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 text-white drop-shadow-lg">
-            English Café Brasília
+          <h1 className="text-6xl md:text-8xl font-heading font-black mb-6 text-white drop-shadow-xl tracking-tighter leading-[0.9]">
+            English Café <br className="hidden md:block"/> <span className="text-yellow-300">Brasília</span>
           </h1>
-          <p className="text-xl md:text-3xl text-white font-bold max-w-2xl mx-auto drop-shadow-md">
+          <p className="text-xl md:text-3xl text-white/90 font-bold max-w-2xl mx-auto drop-shadow-md leading-relaxed">
             Social practice, friendships, and low-pressure speaking. <br/>
-            <span className="text-yellow-200">Coffee is on us!</span>
+            <span className="text-yellow-200 bg-white/10 px-2 rounded-lg">Coffee is on us!</span>
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-20 -mt-10 relative z-20">
-        <div className="grid lg:grid-cols-2 gap-16">
+      <div className="container mx-auto px-4 md:px-6 py-16 md:py-20 -mt-10 md:-mt-16 relative z-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
            <div>
-             <div className="bg-white rounded-3xl p-8 shadow-xl mb-12">
-               <h2 className="text-3xl font-heading font-bold mb-6 text-foreground">What to expect</h2>
-               <p className="text-lg text-muted-foreground font-medium">
+             <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-2xl mb-12 border border-slate-100">
+               <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6 text-foreground">What to expect</h2>
+               <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed">
                  Our Café meets follow a "station" format so you never feel stuck or awkward. Move around, meet new people, and practice different topics.
                </p>
              </div>
 
-             <div className="grid sm:grid-cols-1 gap-4">
+             <div className="grid sm:grid-cols-1 gap-5">
                {[
                  { 
                    title: "Introductions Station", 
                    desc: "Easy icebreakers for new faces. Great place to start if it's your first time.",
-                   icon: <MessageCircle className="w-5 h-5 text-blue-600" />,
+                   icon: <MessageCircle className="w-6 h-6 text-blue-600" />,
                    bg: "bg-blue-50 border-blue-100"
                  },
                  { 
                    title: "City Life Station", 
                    desc: "Talk about Brasília, favorite spots, and local tips.",
-                   icon: <Map className="w-5 h-5 text-green-600" />,
+                   icon: <Map className="w-6 h-6 text-green-600" />,
                    bg: "bg-green-50 border-green-100"
                  },
                  { 
                    title: "Work Talk Station", 
                    desc: "Practice professional networking and career conversations in a relaxed way.",
-                   icon: <Briefcase className="w-5 h-5 text-purple-600" />,
+                   icon: <Briefcase className="w-6 h-6 text-purple-600" />,
                    bg: "bg-purple-50 border-purple-100"
                  },
                  { 
                    title: "Games Station (Confidence Builder)", 
                    desc: "Fun board games in English. The best way to forget you're learning!",
-                   icon: <Gamepad className="w-5 h-5 text-orange-600" />,
+                   icon: <Gamepad className="w-6 h-6 text-orange-600" />,
                    bg: "bg-orange-50 border-orange-100"
                  },
                  { 
                    title: "Beginner Corner", 
                    desc: "A protected, slower-paced table with extra facilitator help. No pressure.",
-                   icon: <Coffee className="w-5 h-5 text-amber-600" />,
+                   icon: <Coffee className="w-6 h-6 text-amber-600" />,
                    bg: "bg-amber-50 border-amber-100"
                  }
                ].map((station, i) => (
-                 <div key={i} className={`flex items-start gap-4 p-5 rounded-2xl border shadow-sm hover:shadow-md transition-all hover:scale-[1.01] ${station.bg} bg-white`}>
-                   <div className="p-3 bg-white rounded-full shrink-0 shadow-sm border border-slate-100">
+                 <div key={i} className={`flex items-start gap-5 p-6 rounded-3xl border shadow-sm hover:shadow-lg transition-all hover:scale-[1.02] duration-300 ${station.bg} bg-white group`}>
+                   <div className="p-4 bg-white rounded-2xl shrink-0 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
                      {station.icon}
                    </div>
                    <div>
-                     <h3 className="font-bold text-lg mb-1 text-foreground">{station.title}</h3>
-                     <p className="text-sm text-foreground/70 leading-relaxed font-medium">{station.desc}</p>
+                     <h3 className="font-heading font-bold text-xl mb-1.5 text-foreground">{station.title}</h3>
+                     <p className="text-base text-foreground/70 leading-relaxed font-medium">{station.desc}</p>
                    </div>
                  </div>
                ))}

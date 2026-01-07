@@ -89,32 +89,60 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Mobile Nav */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="w-6 h-6 text-primary" />
+              <Button variant="ghost" size="icon" className="md:hidden w-10 h-10 rounded-full hover:bg-muted/50">
+                <Menu className="w-6 h-6 text-foreground" />
               </Button>
             </SheetTrigger>
-            <SheetContent>
-              <div className="flex flex-col gap-6 mt-10">
-                {navLinks.map((link) => (
-                  <Link key={link.href} href={link.href}>
-                    <a className="text-lg font-medium text-foreground hover:text-primary transition-colors">
-                      {link.label}
-                    </a>
-                  </Link>
-                ))}
+            <SheetContent side="left" className="w-[300px] sm:w-[350px] p-0 border-r-0">
+              <div className="flex flex-col h-full bg-background">
                 
-                <Button 
-                  variant="outline"
-                  onClick={() => setLanguage(language === 'en' ? 'pt' : 'en')}
-                  className="justify-start gap-3"
-                >
-                   <Globe className="w-5 h-5" />
-                   {language === 'en' ? 'Mudar para Português' : 'Switch to English'}
-                </Button>
+                {/* Header */}
+                <div className="p-6 border-b border-border/50 bg-muted/10">
+                   <div className="flex items-center gap-3 mb-2">
+                     <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-heading font-bold text-xl shadow-md">
+                       H
+                     </div>
+                     <span className="font-heading font-bold text-xl tracking-tight text-foreground">Horizonte</span>
+                   </div>
+                   <p className="text-xs text-muted-foreground font-medium pl-1">English Community Brasília</p>
+                </div>
 
-                <Link href="/cohorts">
-                  <Button className="w-full rounded-full bg-primary text-white">{t("nav.join")}</Button>
-                </Link>
+                {/* Links */}
+                <div className="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+                  {navLinks.map((link) => (
+                    <Link key={link.href} href={link.href}>
+                      <a className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-200 group ${
+                        location === link.href 
+                          ? "bg-primary/10 text-primary font-bold shadow-sm" 
+                          : "text-foreground/80 hover:bg-muted hover:text-foreground font-medium"
+                      }`}>
+                        {/* Icons could be added here if we mapped them */}
+                        <span className="text-lg">{link.label}</span>
+                        {location === link.href && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />}
+                      </a>
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Footer Actions */}
+                <div className="p-6 border-t border-border/50 bg-muted/10 space-y-4">
+                  <Button 
+                    variant="outline"
+                    onClick={() => setLanguage(language === 'en' ? 'pt' : 'en')}
+                    className="w-full justify-start gap-3 h-12 rounded-xl border-border/60 hover:bg-background hover:text-foreground font-medium"
+                  >
+                     <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                        <Globe className="w-4 h-4 text-foreground/70" />
+                     </div>
+                     {language === 'en' ? 'Mudar para Português' : 'Switch to English'}
+                  </Button>
+
+                  <Link href="/cohorts">
+                    <Button className="w-full rounded-xl h-12 bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all active:scale-[0.98]">
+                      {t("nav.join")}
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

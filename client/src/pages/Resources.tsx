@@ -19,66 +19,67 @@ export default function Resources() {
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 text-foreground drop-shadow-sm">
-              Resources
+            <h1 className="text-6xl md:text-8xl font-heading font-black mb-6 text-foreground drop-shadow-sm tracking-tight leading-[0.9]">
+              Re<span className="text-white drop-shadow-md">sources</span>
             </h1>
-            <p className="text-xl md:text-2xl text-foreground/80 font-medium max-w-2xl">
+            <p className="text-xl md:text-3xl text-foreground/80 font-medium max-w-2xl leading-tight">
               Placement tools, free lessons, and downloads to help you start your journey.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-12">
-        <div className="grid md:grid-cols-[2fr_1fr] gap-12">
+      <div className="container mx-auto px-4 md:px-6 py-12 md:py-20">
+        <div className="grid lg:grid-cols-[2fr_1fr] gap-8 md:gap-12">
           
           {/* Main Content Area */}
           <div className="space-y-12">
             
             {/* Placement Section */}
             <section className="space-y-6">
-              <h2 className="text-3xl font-heading font-bold text-primary flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm">1</span>
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary flex items-center gap-4">
+                <span className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-lg shadow-md">1</span>
                 Where should I start?
               </h2>
-              <div className="bg-white rounded-3xl border border-border shadow-xl p-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/20 rounded-bl-full -mr-8 -mt-8" />
+              <div className="bg-white rounded-[2.5rem] border border-border shadow-2xl p-6 md:p-10 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-yellow-400/20 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110" />
                 
-                <p className="text-lg text-foreground/80 font-medium mb-8 relative z-10">
+                <p className="text-lg md:text-xl text-foreground/80 font-medium mb-8 relative z-10 leading-relaxed">
                   Answer these simple questions to find your best fit. Be honest—there is no wrong answer!
                 </p>
                 
                 <div className="space-y-6 mb-8 relative z-10">
-                   <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                     <p className="font-bold text-lg mb-4 text-foreground">1. Can you introduce yourself confidently in English?</p>
+                   <div className="p-6 md:p-8 bg-slate-50/80 backdrop-blur-sm rounded-3xl border border-slate-100 hover:border-slate-200 transition-colors">
+                     <p className="font-bold text-xl mb-6 text-foreground">1. Can you introduce yourself confidently in English?</p>
                      <div className="flex flex-wrap gap-3">
-                       <Button variant="outline" className="rounded-full border-2 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, easily</Button>
-                       <Button variant="outline" className="rounded-full border-2 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Sometimes</Button>
-                       <Button variant="outline" className="rounded-full border-2 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Not yet</Button>
+                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, easily</Button>
+                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Sometimes</Button>
+                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Not yet</Button>
                      </div>
                    </div>
-                   <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                     <p className="font-bold text-lg mb-4 text-foreground">2. Can you order food or ask for directions?</p>
+                   <div className="p-6 md:p-8 bg-slate-50/80 backdrop-blur-sm rounded-3xl border border-slate-100 hover:border-slate-200 transition-colors">
+                     <p className="font-bold text-xl mb-6 text-foreground">2. Can you order food or ask for directions?</p>
                      <div className="flex flex-wrap gap-3">
-                       <Button variant="outline" className="rounded-full border-2 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, usually</Button>
-                       <Button variant="outline" className="rounded-full border-2 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">With difficulty</Button>
-                       <Button variant="outline" className="rounded-full border-2 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">I use a translator</Button>
+                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, usually</Button>
+                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">With difficulty</Button>
+                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">I use a translator</Button>
                      </div>
                    </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center gap-6 bg-gradient-to-r from-blue-600 to-blue-500 p-6 rounded-2xl shadow-lg relative z-10 text-white">
-                   <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shrink-0 font-bold text-2xl animate-pulse">?</div>
-                   <div className="text-center sm:text-left">
-                     <p className="font-bold text-lg">Not sure?</p>
-                     <p className="text-blue-100 text-sm">Send us a short voice note (30 seconds) introducing yourself. We will recommend the perfect group.</p>
+                <div className="flex flex-col sm:flex-row items-center gap-6 bg-gradient-to-r from-blue-600 to-blue-500 p-6 md:p-8 rounded-3xl shadow-lg relative z-10 text-white">
+                   <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center shrink-0 font-bold text-3xl animate-pulse shadow-inner">?</div>
+                   <div className="text-center sm:text-left space-y-1">
+                     <p className="font-heading font-bold text-xl">Not sure?</p>
+                     <p className="text-blue-100 text-sm md:text-base font-medium leading-snug">Send us a short voice note (30 seconds). We will recommend the perfect group.</p>
                    </div>
-                   <Button size="lg" className="sm:ml-auto bg-green-500 hover:bg-green-600 text-white rounded-full font-bold shadow-md whitespace-nowrap">
+                   <Button size="lg" className="w-full sm:w-auto sm:ml-auto h-14 px-8 bg-green-500 hover:bg-green-600 text-white rounded-full font-bold shadow-lg whitespace-nowrap text-lg transition-transform active:scale-95">
                      WhatsApp Us
                    </Button>
                 </div>
               </div>
             </section>
+
 
             {/* Week 1 Lesson Demo */}
             <section className="space-y-6">

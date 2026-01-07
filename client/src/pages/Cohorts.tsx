@@ -69,54 +69,58 @@ export default function Cohorts() {
         </div>
         
         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center max-w-3xl">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white font-bold text-sm mb-6 animate-in fade-in slide-in-from-top-4 duration-700">
+          <div className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white font-bold text-sm mb-6 animate-in fade-in slide-in-from-top-4 duration-700 shadow-lg">
             Applications Open for February 2026
           </div>
-          <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 text-white drop-shadow-md">
-            Find Your <span className="text-yellow-300">Track</span>
+          <h1 className="text-5xl md:text-7xl font-heading font-black mb-6 text-white drop-shadow-xl tracking-tight leading-[0.9]">
+            Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 drop-shadow-none">Track</span>
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 font-medium leading-relaxed drop-shadow-sm">
+          <p className="text-xl md:text-2xl text-white/90 font-medium leading-relaxed drop-shadow-md max-w-2xl mx-auto">
             Whether you're just starting or looking to build confidence, we have a friendly group for you.
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-16 -mt-10 relative z-20">
-        <div className="grid md:grid-cols-3 gap-8">
+      <div className="container mx-auto px-4 md:px-6 py-12 md:py-20 -mt-10 md:-mt-16 relative z-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {tracks.map((track) => (
-            <Card key={track.id} className="flex flex-col border-none shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 bg-white overflow-hidden">
-              <div className={`h-2 w-full ${track.color.split(" ")[0].replace("100", "500")}`} />
-              <CardHeader>
-                <Badge className={`w-fit mb-4 ${track.color} border-none font-bold text-sm px-3 py-1`}>{track.level}</Badge>
-                <CardTitle className="text-2xl font-heading font-bold text-foreground">{track.title}</CardTitle>
-                <CardDescription className="text-base mt-2 text-muted-foreground font-medium">{track.description}</CardDescription>
+            <Card key={track.id} className="flex flex-col border-none shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 bg-white overflow-hidden rounded-[2rem] group h-full">
+              <div className={`h-3 w-full ${track.color.split(" ")[0].replace("100", "500")}`} />
+              <CardHeader className="pb-2">
+                <Badge className={`w-fit mb-4 ${track.color} border-none font-bold text-xs md:text-sm px-3 py-1.5 uppercase tracking-wide`}>{track.level}</Badge>
+                <CardTitle className="text-2xl md:text-3xl font-heading font-bold text-foreground leading-tight group-hover:text-primary transition-colors">{track.title}</CardTitle>
+                <CardDescription className="text-base mt-2 text-muted-foreground font-medium leading-relaxed">{track.description}</CardDescription>
               </CardHeader>
-              <CardContent className="flex-grow space-y-6">
-                <ul className="space-y-3">
+              <CardContent className="flex-grow space-y-6 pt-4">
+                <ul className="space-y-4">
                   {track.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-foreground/80 font-medium">
-                      <Check className="w-5 h-5 text-green-600 shrink-0" />
-                      {feature}
+                    <li key={idx} className="flex items-start gap-3 text-sm md:text-base text-foreground/80 font-medium">
+                      <div className={`mt-1 p-0.5 rounded-full ${track.color.split(" ")[0]} shrink-0`}>
+                         <Check className={`w-3 h-3 ${track.color.split(" ")[1]}`} />
+                      </div>
+                      <span className="leading-snug">{feature}</span>
                     </li>
                   ))}
                 </ul>
                 
-                <div className="pt-4 border-t border-border">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2 font-medium">
-                    <Calendar className="w-4 h-4 text-primary" />
-                    <span>8 Week Program</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
-                     {track.schedule.includes("In-Person") ? <MapPin className="w-4 h-4 text-primary" /> : <Clock className="w-4 h-4 text-primary" />}
-                     <span>{track.schedule}</span>
+                <div className="pt-6 border-t border-border mt-auto">
+                  <div className="flex flex-wrap gap-4">
+                     <div className="flex items-center gap-2 text-sm text-muted-foreground font-bold bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                        <Calendar className="w-4 h-4 text-primary" />
+                        <span>8 Weeks</span>
+                     </div>
+                     <div className="flex items-center gap-2 text-sm text-muted-foreground font-bold bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                        {track.schedule.includes("In-Person") ? <MapPin className="w-4 h-4 text-primary" /> : <Clock className="w-4 h-4 text-primary" />}
+                        <span>{track.schedule}</span>
+                     </div>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter>
-                <Button className={`w-full rounded-full text-lg h-12 font-bold shadow-md transition-transform active:scale-95 ${
-                  track.id === 'foundations' ? 'bg-blue-600 hover:bg-blue-700 text-white' :
-                  track.id === 'confidence' ? 'bg-yellow-500 hover:bg-yellow-600 text-black' :
-                  'bg-green-600 hover:bg-green-700 text-white'
+              <CardFooter className="pt-2 pb-6 md:pb-8">
+                <Button size="lg" className={`w-full rounded-xl text-lg h-14 font-bold shadow-lg transition-all active:scale-[0.98] ${
+                  track.id === 'foundations' ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200' :
+                  track.id === 'confidence' ? 'bg-yellow-500 hover:bg-yellow-600 text-black shadow-yellow-200' :
+                  'bg-green-600 hover:bg-green-700 text-white shadow-green-200'
                 }`}>
                   Apply for {track.title.split(":")[0]}
                 </Button>
