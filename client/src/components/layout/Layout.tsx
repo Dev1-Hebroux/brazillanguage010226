@@ -43,11 +43,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link href="/">
             <a className="flex items-center gap-3 group">
               <div className="w-10 h-10 rounded-full overflow-hidden bg-white shadow-sm flex items-center justify-center">
-                 <img src={logoImage} alt="English for Impact Logo" className="w-full h-full object-cover" />
+                 <img src={logoImage} alt="Horizonte Café Logo" className="w-full h-full object-cover" />
               </div>
-              <span className={`font-heading font-bold text-xl tracking-tight transition-colors ${isScrolled ? "text-primary" : "text-primary"}`}>
-                English for Impact
-              </span>
+              <div className="flex flex-col">
+                <span className={`font-heading font-bold text-xl tracking-tight leading-none transition-colors ${isScrolled ? "text-primary" : "text-primary"}`}>
+                  Horizonte Café
+                </span>
+                <span className="text-[10px] font-bold text-green-600 uppercase tracking-wider">English for Impact</span>
+              </div>
             </a>
           </Link>
 
@@ -100,11 +103,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <div className="p-6 border-b border-border/50 bg-muted/10">
                    <div className="flex items-center gap-3 mb-2">
                      <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-heading font-bold text-xl shadow-md">
-                       E
+                       H
                      </div>
-                     <span className="font-heading font-bold text-xl tracking-tight text-foreground">English for Impact</span>
+                     <span className="font-heading font-bold text-xl tracking-tight text-foreground">Horizonte Café</span>
                    </div>
-                   <p className="text-xs text-muted-foreground font-medium pl-1">RCCG Hallelujah House of Praise</p>
+                   <p className="text-xs text-muted-foreground font-medium pl-1">Home of English for Impact</p>
                 </div>
 
                 {/* Links */}

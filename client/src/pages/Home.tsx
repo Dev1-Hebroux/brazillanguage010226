@@ -20,12 +20,12 @@ export default function Home() {
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 relative z-10">
               <div className="absolute -left-20 -top-20 w-64 h-64 bg-blue-500/20 rounded-full blur-[100px] pointer-events-none" />
               
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-foreground font-bold text-sm border border-white/20 shadow-lg ring-1 ring-black/5 hover:scale-105 transition-transform cursor-default">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-600/10 backdrop-blur-md text-green-800 font-bold text-sm border border-green-200 shadow-lg ring-1 ring-black/5 hover:scale-105 transition-transform cursor-default">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-600"></span>
                 </span>
-                English for Impact - Free Class
+                ENGLISH FOR IMPACT — FREE CLASS
               </div>
               
               <h1 className="text-6xl md:text-7xl lg:text-8xl font-heading font-black leading-[0.95] tracking-tight">
