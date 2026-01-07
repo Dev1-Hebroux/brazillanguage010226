@@ -44,7 +44,7 @@ export default function Home() {
               </h1>
               
               <p className="text-xl md:text-2xl text-foreground/80 font-medium md:max-w-lg leading-relaxed drop-shadow-sm bg-white/30 backdrop-blur-sm p-4 rounded-2xl border border-white/40">
-                {t("home.hero.subtitle")}
+                Horizonte cafe. Home of English for impact - A free English class initiative of the RCCG Brazil. Speak.Connect.Grow
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 pt-2">

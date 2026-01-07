@@ -166,7 +166,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                <span className="font-heading font-bold text-lg">English for Impact</span>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
-              A free English class initiative empowering our community to speak with confidence.
+              Horizonte cafe. Home of English for impact - A free English class initiative of the RCCG Brazil. Speak.Connect.Grow
             </p>
           </div>
 
