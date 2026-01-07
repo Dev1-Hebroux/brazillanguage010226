@@ -1,7 +1,7 @@
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Play, Download, FileText, MessageCircle, CheckCircle } from "lucide-react";
-import heroImage from "@assets/generated_images/creative_colorful_learning_materials_flatlay.png";
+import heroImage from "@assets/generated_images/sophisticated_adult_learning_resources_flatlay.png";
 
 export default function Resources() {
   return (
