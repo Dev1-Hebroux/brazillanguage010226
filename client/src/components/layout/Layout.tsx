@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import logoImage from "@assets/generated_images/minimalist_logo_with_horizon_line_and_rising_arc.png";
+import rccgLogo from "@assets/image_1767816745668.png";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -147,7 +148,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         <div className="container mx-auto px-4 md:px-6 mt-16 pt-8 border-t border-white/10 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-xs text-primary-foreground/40">
-          <p>© 2026 Horizonte English Community. All rights reserved.</p>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <p>© 2026 Horizonte English Community. All rights reserved.</p>
+            <div className="hidden md:block w-1 h-1 bg-white/20 rounded-full" />
+            <div className="flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
+               <span>Powered by</span>
+               <img src={rccgLogo} alt="The Redeemed Christian Church of God Brazil" className="h-6 w-auto brightness-0 invert" />
+            </div>
+          </div>
           <div className="flex gap-6 mt-4 md:mt-0">
              <a href="#" className="hover:text-white">Privacy Policy</a>
              <a href="#" className="hover:text-white">Terms of Service</a>
