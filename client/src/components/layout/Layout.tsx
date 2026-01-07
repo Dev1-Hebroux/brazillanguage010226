@@ -43,10 +43,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link href="/">
             <a className="flex items-center gap-3 group">
               <div className="w-10 h-10 rounded-full overflow-hidden bg-white shadow-sm flex items-center justify-center">
-                 <img src={logoImage} alt="Horizonte Logo" className="w-full h-full object-cover" />
+                 <img src={logoImage} alt="English for Impact Logo" className="w-full h-full object-cover" />
               </div>
               <span className={`font-heading font-bold text-xl tracking-tight transition-colors ${isScrolled ? "text-primary" : "text-primary"}`}>
-                Horizonte Café
+                English for Impact
               </span>
             </a>
           </Link>
@@ -100,11 +100,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <div className="p-6 border-b border-border/50 bg-muted/10">
                    <div className="flex items-center gap-3 mb-2">
                      <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-heading font-bold text-xl shadow-md">
-                       H
+                       E
                      </div>
-                     <span className="font-heading font-bold text-xl tracking-tight text-foreground">Horizonte</span>
+                     <span className="font-heading font-bold text-xl tracking-tight text-foreground">English for Impact</span>
                    </div>
-                   <p className="text-xs text-muted-foreground font-medium pl-1">English Community Brasília</p>
+                   <p className="text-xs text-muted-foreground font-medium pl-1">RCCG Hallelujah House of Praise</p>
                 </div>
 
                 {/* Links */}
@@ -159,11 +159,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-4 gap-12 pb-16">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-heading font-bold">H</div>
-               <span className="font-heading font-bold text-lg">Horizonte</span>
+               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-heading font-bold">E</div>
+               <span className="font-heading font-bold text-lg">English for Impact</span>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
-              {t("footer.desc")}
+              A free English class initiative empowering our community to speak with confidence.
             </p>
           </div>
 
@@ -213,7 +213,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                  rel="noopener noreferrer" 
                  className="flex items-center gap-3 group transition-opacity hover:opacity-80"
                >
-                 <span className="font-medium text-foreground uppercase tracking-wider text-[10px]">{t("footer.powered")}</span>
+                 <span className="font-medium text-foreground uppercase tracking-wider text-[10px]">An initiative of RCCG, Hallelujah House of Praise, Brasília</span>
                  <img src={rccgLogo} alt="The Redeemed Christian Church of God Brazil" className="h-8 w-auto" />
                  <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors" />
                </a>
