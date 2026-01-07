@@ -147,13 +147,20 @@ export default function CohortDashboard() {
              </div>
 
              <Tabs defaultValue="daily" className="w-full">
-               <div className="overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:pb-0 scrollbar-hide">
-                 <TabsList className="w-auto inline-flex justify-start h-auto p-1.5 bg-muted/50 rounded-xl mb-6 border border-border/50">
-                   <TabsTrigger value="daily" className="rounded-lg py-2.5 px-6 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all">Daily Practice</TabsTrigger>
-                   <TabsTrigger value="circle" className="rounded-lg py-2.5 px-6 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all">Conversation Circle</TabsTrigger>
-                   <TabsTrigger value="resources" className="rounded-lg py-2.5 px-6 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all">Downloads</TabsTrigger>
-                 </TabsList>
-               </div>
+               <TabsList className="w-full grid grid-cols-3 h-auto p-1 bg-muted/50 rounded-xl mb-6 border border-border/50">
+                 <TabsTrigger value="daily" className="rounded-lg py-2.5 px-2 md:px-6 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all text-xs md:text-sm">
+                   <span className="md:hidden">Daily</span>
+                   <span className="hidden md:inline">Daily Practice</span>
+                 </TabsTrigger>
+                 <TabsTrigger value="circle" className="rounded-lg py-2.5 px-2 md:px-6 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all text-xs md:text-sm">
+                   <span className="md:hidden">Meetup</span>
+                   <span className="hidden md:inline">Conversation Circle</span>
+                 </TabsTrigger>
+                 <TabsTrigger value="resources" className="rounded-lg py-2.5 px-2 md:px-6 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all text-xs md:text-sm">
+                   <span className="md:hidden">Files</span>
+                   <span className="hidden md:inline">Downloads</span>
+                 </TabsTrigger>
+               </TabsList>
 
                <TabsContent value="daily" className="space-y-6 animate-in fade-in-50 duration-500 slide-in-from-bottom-4">
                   <div className="grid gap-4">
