@@ -1,10 +1,10 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Heart } from "lucide-react";
+import { Menu, X, Instagram, Heart, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import logoImage from "@assets/generated_images/minimalist_logo_with_horizon_line_and_rising_arc.png";
-import rccgLogo from "@assets/image_1767816745668.png";
+import rccgLogo from "@assets/image_1767817496066.png";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -102,8 +102,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-primary text-primary-foreground py-16 mt-20">
-        <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-4 gap-12">
+      <footer className="bg-primary text-primary-foreground pt-16 mt-20">
+        <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-4 gap-12 pb-16">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-heading font-bold">H</div>
@@ -147,18 +147,31 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </p>
           </div>
         </div>
-        <div className="container mx-auto px-4 md:px-6 mt-16 pt-8 border-t border-white/10 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-xs text-primary-foreground/40">
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            <p>© 2026 Horizonte English Community. All rights reserved.</p>
-            <div className="hidden md:block w-1 h-1 bg-white/20 rounded-full" />
-            <div className="flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
-               <span>Powered by</span>
-               <img src={rccgLogo} alt="The Redeemed Christian Church of God Brazil" className="h-6 w-auto brightness-0 invert" />
-            </div>
-          </div>
-          <div className="flex gap-6 mt-4 md:mt-0">
-             <a href="#" className="hover:text-white">Privacy Policy</a>
-             <a href="#" className="hover:text-white">Terms of Service</a>
+
+        {/* Powered By Section */}
+        <div className="bg-white py-6">
+          <div className="container mx-auto px-4 md:px-6">
+             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
+               
+               {/* Left: Attribution */}
+               <a 
+                 href="https://rccgsouthamerica.org/" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="flex items-center gap-3 group transition-opacity hover:opacity-80"
+               >
+                 <span className="font-medium text-foreground uppercase tracking-wider text-[10px]">Powered by</span>
+                 <img src={rccgLogo} alt="The Redeemed Christian Church of God Brazil" className="h-8 w-auto" />
+                 <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors" />
+               </a>
+
+               {/* Right: Legal */}
+               <div className="flex gap-6">
+                 <p>© 2026 Horizonte English Community.</p>
+                 <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
+                 <a href="#" className="hover:text-foreground transition-colors">Terms</a>
+               </div>
+             </div>
           </div>
         </div>
       </footer>
