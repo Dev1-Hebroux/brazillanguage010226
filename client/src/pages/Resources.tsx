@@ -6,9 +6,15 @@ import heroImage from "@assets/generated_images/sophisticated_adult_learning_res
 export default function Resources() {
   return (
     <Layout>
-      <div className="relative py-20 bg-yellow-400 overflow-hidden">
+      <div className="relative py-20 md:py-28 bg-yellow-400 overflow-hidden min-h-[480px] flex items-center">
         <div className="absolute inset-0 z-0">
-           <img src={heroImage} className="w-full h-full object-cover opacity-20" alt="" />
+           <img 
+             src={heroImage} 
+             className="w-full h-full object-cover opacity-20" 
+             alt="Learning resources" 
+             loading="eager"
+             fetchPriority="high"
+           />
         </div>
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">

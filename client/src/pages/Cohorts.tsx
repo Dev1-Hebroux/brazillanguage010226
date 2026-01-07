@@ -56,9 +56,15 @@ const tracks = [
 export default function Cohorts() {
   return (
     <Layout>
-      <div className="relative py-24 bg-gradient-to-r from-blue-600 to-green-500 overflow-hidden">
+      <div className="relative py-20 md:py-28 bg-gradient-to-r from-blue-600 to-green-500 overflow-hidden min-h-[480px] flex items-center">
         <div className="absolute inset-0 z-0">
-           <img src={heroImage} className="w-full h-full object-cover opacity-20 mix-blend-overlay" alt="" />
+           <img 
+             src={heroImage} 
+             className="w-full h-full object-cover opacity-20 mix-blend-overlay" 
+             alt="Happy students studying" 
+             loading="eager"
+             fetchPriority="high"
+           />
            <div className="absolute inset-0 bg-black/10" />
         </div>
         

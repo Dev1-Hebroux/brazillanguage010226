@@ -6,9 +6,15 @@ import heroImage from "@assets/generated_images/large_diverse_community_group_ce
 export default function Community() {
   return (
     <Layout>
-      <div className="relative py-24 bg-blue-600 overflow-hidden">
+      <div className="relative py-20 md:py-28 bg-blue-600 overflow-hidden min-h-[480px] flex items-center">
          <div className="absolute inset-0 z-0">
-           <img src={heroImage} className="w-full h-full object-cover opacity-30 mix-blend-luminosity" alt="" />
+           <img 
+             src={heroImage} 
+             className="w-full h-full object-cover opacity-30 mix-blend-luminosity" 
+             alt="Community celebration" 
+             loading="eager"
+             fetchPriority="high"
+           />
            <div className="absolute inset-0 bg-gradient-to-t from-blue-600 to-transparent" />
          </div>
 

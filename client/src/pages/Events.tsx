@@ -6,9 +6,15 @@ import heroImage from "@assets/generated_images/bright_sunny_outdoor_cafe_in_bra
 export default function Events() {
   return (
     <Layout>
-      <div className="relative py-24 bg-foreground text-background overflow-hidden">
+      <div className="relative py-20 md:py-28 bg-foreground text-background overflow-hidden min-h-[480px] flex items-center">
         <div className="absolute inset-0 z-0">
-          <img src={heroImage} className="w-full h-full object-cover opacity-40" alt="" />
+          <img 
+            src={heroImage} 
+            className="w-full h-full object-cover opacity-40" 
+            alt="Outdoor cafe" 
+            loading="eager"
+            fetchPriority="high"
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-orange-500/80 to-yellow-500/60 mix-blend-multiply" />
         </div>
         
