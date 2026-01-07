@@ -44,36 +44,39 @@
 }
 
 :root {
-  /* Horizonte Theme Palette */
-  /* Warm, Calm, Hopeful */
+  /* BRAZIL VIBRANT THEME */
   
-  /* Background: Soft cream/neutral */
-  --background: 40 20% 98%; 
-  --foreground: 200 50% 15%; /* Deep slate blue text */
+  /* Background: Clean White */
+  --background: 0 0% 100%; 
+  /* Text: Deep Navy Black - High Contrast */
+  --foreground: 220 30% 10%;
 
   /* Card: White */
   --card: 0 0% 100%;
-  --card-foreground: 200 50% 15%;
+  --card-foreground: 220 30% 10%;
 
   /* Popover */
   --popover: 0 0% 100%;
-  --popover-foreground: 200 50% 15%;
+  --popover-foreground: 220 30% 10%;
 
-  /* Primary: Horizon Teal/Blue - Trustworthy, Calm */
-  --primary: 195 70% 40%;
+  /* Primary: Vibrant Brazilian Blue */
+  /* Was muted teal (195 70% 40%) */
+  --primary: 215 85% 45%; 
   --primary-foreground: 0 0% 100%;
 
-  /* Secondary: Soft Sky Blue - Approachable */
-  --secondary: 195 40% 92%;
-  --secondary-foreground: 195 70% 30%;
+  /* Secondary: Lush Amazon Green */
+  /* Was soft sky (195 40% 92%) */
+  --secondary: 145 65% 40%;
+  --secondary-foreground: 0 0% 100%;
 
-  /* Accent: Warm Orange/Gold - Encouragement, Warmth */
-  --accent: 35 90% 60%;
-  --accent-foreground: 0 0% 100%;
+  /* Accent: Sunshine Yellow/Gold */
+  /* Was warm orange (35 90% 60%) */
+  --accent: 45 100% 50%;
+  --accent-foreground: 220 30% 10%;
 
-  /* Muted: Soft Greys */
+  /* Muted: Cool Greys for balance */
   --muted: 210 20% 96%;
-  --muted-foreground: 215 20% 45%;
+  --muted-foreground: 215 20% 40%; /* Darker for better visibility */
 
   /* Destructive */
   --destructive: 0 84.2% 60.2%;
@@ -82,32 +85,31 @@
   /* Borders */
   --border: 214 32% 91%;
   --input: 214 32% 91%;
-  --ring: 195 70% 40%;
+  --ring: 215 85% 45%;
 
-  --radius: 1rem; /* Rounded, friendly feel */
+  --radius: 1rem;
 }
 
 .dark {
-  /* Dark mode mappings (if needed, though brand leans light/airy) */
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
   --card: 222.2 84% 4.9%;
   --card-foreground: 210 40% 98%;
   --popover: 222.2 84% 4.9%;
   --popover-foreground: 210 40% 98%;
-  --primary: 195 70% 50%;
+  --primary: 215 85% 55%;
   --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
+  --secondary: 145 65% 40%;
   --secondary-foreground: 210 40% 98%;
   --muted: 217.2 32.6% 17.5%;
   --muted-foreground: 215 20.2% 65.1%;
-  --accent: 35 90% 60%;
-  --accent-foreground: 210 40% 98%;
+  --accent: 45 100% 50%;
+  --accent-foreground: 222.2 47.4% 11.2%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
-  --ring: 195 70% 50%;
+  --ring: 215 85% 55%;
 }
 
 @layer base {
@@ -118,6 +120,13 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-bold;
+    @apply font-heading font-bold text-foreground;
+  }
+  
+  /* Utility for gradient text */
+  .text-gradient-brazil {
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
