@@ -121,8 +121,8 @@ export default function Events() {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground font-bold uppercase tracking-wide">Location</p>
-                      <p className="font-heading font-bold text-2xl text-foreground">Café da Cidade</p>
-                      <p className="text-sm text-muted-foreground font-medium">Asa Norte, Brasília</p>
+                      <p className="font-heading font-bold text-2xl text-foreground">Loja 1A, Edifício Boulevard</p>
+                      <p className="text-sm text-muted-foreground font-medium">1º subsolo, SDS - Brasília, DF</p>
                     </div>
                   </div>
                 </div>

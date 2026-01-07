@@ -196,7 +196,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </a>
             </div>
             <p className="text-xs text-primary-foreground/60">
-              Brasília, DF, Brazil
+              Loja 1A, situada no 1º subsolo do Edifício Centro Comercial Boulevard no SDS - Brasília - DF.
             </p>
           </div>
         </div>
