@@ -47,7 +47,7 @@ export default function CohortDashboard() {
 
   return (
     <Layout>
-      <div className="bg-muted/30 border-b border-border sticky top-[72px] z-30 backdrop-blur-sm bg-white/80 supports-[backdrop-filter]:bg-white/60">
+      <div className="bg-muted/30 border-b border-border md:sticky md:top-[72px] z-30 backdrop-blur-sm bg-white/80 supports-[backdrop-filter]:bg-white/60">
         <div className="container mx-auto px-4 md:px-6 py-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-1">
