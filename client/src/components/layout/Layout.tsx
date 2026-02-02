@@ -1,16 +1,30 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Heart, ExternalLink, Globe } from "lucide-react";
+import { Menu, X, Instagram, Heart, ExternalLink, Globe, User, LogOut } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import logoImage from "@assets/generated_images/minimalist_logo_with_horizon_line_and_rising_arc.png";
 import rccgLogo from "@assets/image_1767817496066.png";
 import { useLanguage } from "@/lib/i18n";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const { t, language, setLanguage } = useLanguage();
+  const { user, isAuthenticated, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    setLocation("/");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,11 +96,39 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {language === 'en' ? 'PT' : 'EN'}
             </Button>
 
-            <Link href="/cohorts">
-              <Button size="sm" className="rounded-full px-6 bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all">
-                {t("nav.join")}
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <User className="w-4 h-4 text-primary" />
+                    </div>
+                    <span className="font-medium">{user?.name?.split(' ')[0]}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard">
+                      <a className="flex items-center gap-2 w-full">
+                        <User className="w-4 h-4" />
+                        {t("nav.dashboard")}
+                      </a>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {t("logout")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/login">
+                <Button size="sm" className="rounded-full px-6 bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all">
+                  {t("login")}
+                </Button>
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Nav */}
@@ -140,11 +182,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                      {language === 'en' ? 'Mudar para Português' : 'Switch to English'}
                   </Button>
 
-                  <Link href="/cohorts">
-                    <Button className="w-full rounded-xl h-12 bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all active:scale-[0.98]">
-                      {t("nav.join")}
+                  {isAuthenticated ? (
+                    <Button
+                      onClick={handleLogout}
+                      variant="outline"
+                      className="w-full rounded-xl h-12 border-red-200 text-red-600 hover:bg-red-50 font-bold text-lg"
+                    >
+                      <LogOut className="w-5 h-5 mr-2" />
+                      {t("logout")}
                     </Button>
-                  </Link>
+                  ) : (
+                    <Link href="/login">
+                      <Button className="w-full rounded-xl h-12 bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all active:scale-[0.98]">
+                        {t("login")}
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </SheetContent>
