@@ -447,7 +447,18 @@ export class MemStorage implements IStorage {
 
   async createCohort(cohort: InsertCohort): Promise<Cohort> {
     const id = randomUUID();
-    const newCohort: Cohort = { ...cohort, id, createdAt: new Date() };
+    const newCohort: Cohort = {
+      id,
+      name: cohort.name,
+      track: cohort.track,
+      description: cohort.description ?? null,
+      startDate: cohort.startDate,
+      endDate: cohort.endDate,
+      maxStudents: cohort.maxStudents ?? null,
+      whatsappLink: cohort.whatsappLink ?? null,
+      isActive: cohort.isActive ?? true,
+      createdAt: new Date(),
+    };
     this.cohortsMap.set(id, newCohort);
     return newCohort;
   }
@@ -467,7 +478,14 @@ export class MemStorage implements IStorage {
 
   async createEnrollment(enrollment: InsertEnrollment): Promise<Enrollment> {
     const id = randomUUID();
-    const newEnrollment: Enrollment = { ...enrollment, id, enrolledAt: new Date(), completedAt: null };
+    const newEnrollment: Enrollment = {
+      id,
+      userId: enrollment.userId,
+      cohortId: enrollment.cohortId,
+      status: enrollment.status ?? "active",
+      enrolledAt: new Date(),
+      completedAt: null,
+    };
     this.enrollmentsMap.set(id, newEnrollment);
     return newEnrollment;
   }
@@ -506,7 +524,18 @@ export class MemStorage implements IStorage {
 
   async createLesson(lesson: InsertLesson): Promise<Lesson> {
     const id = randomUUID();
-    const newLesson: Lesson = { ...lesson, id, createdAt: new Date() };
+    const newLesson: Lesson = {
+      id,
+      track: lesson.track,
+      week: lesson.week,
+      day: lesson.day,
+      title: lesson.title,
+      titlePt: lesson.titlePt,
+      type: lesson.type,
+      content: lesson.content,
+      duration: lesson.duration ?? null,
+      createdAt: new Date(),
+    };
     this.lessonsMap.set(id, newLesson);
     return newLesson;
   }
@@ -526,7 +555,16 @@ export class MemStorage implements IStorage {
 
   async createProgress(prog: InsertProgress): Promise<Progress> {
     const id = randomUUID();
-    const newProgress: Progress = { ...prog, id, createdAt: new Date() };
+    const newProgress: Progress = {
+      id,
+      userId: prog.userId,
+      lessonId: prog.lessonId,
+      cohortId: prog.cohortId ?? null,
+      status: prog.status ?? "not_started",
+      score: prog.score ?? null,
+      completedAt: prog.completedAt ?? null,
+      createdAt: new Date(),
+    };
     this.progressMap.set(id, newProgress);
     return newProgress;
   }
@@ -559,7 +597,20 @@ export class MemStorage implements IStorage {
 
   async createEvent(event: InsertEvent): Promise<Event> {
     const id = randomUUID();
-    const newEvent: Event = { ...event, id, createdAt: new Date() };
+    const newEvent: Event = {
+      id,
+      title: event.title,
+      titlePt: event.titlePt,
+      description: event.description ?? null,
+      descriptionPt: event.descriptionPt ?? null,
+      eventDate: event.eventDate,
+      location: event.location,
+      locationUrl: event.locationUrl ?? null,
+      maxAttendees: event.maxAttendees ?? null,
+      eventType: event.eventType ?? "cafe",
+      isActive: event.isActive ?? true,
+      createdAt: new Date(),
+    };
     this.eventsMap.set(id, newEvent);
     return newEvent;
   }
@@ -579,7 +630,13 @@ export class MemStorage implements IStorage {
 
   async createEventRegistration(registration: InsertEventRegistration): Promise<EventRegistration> {
     const id = randomUUID();
-    const newRegistration: EventRegistration = { ...registration, id, registeredAt: new Date() };
+    const newRegistration: EventRegistration = {
+      id,
+      userId: registration.userId,
+      eventId: registration.eventId,
+      status: registration.status ?? "registered",
+      registeredAt: new Date(),
+    };
     this.eventRegistrationsMap.set(id, newRegistration);
     return newRegistration;
   }
@@ -595,7 +652,16 @@ export class MemStorage implements IStorage {
   // Placement
   async createPlacementResponse(response: InsertPlacementResponse): Promise<PlacementResponse> {
     const id = randomUUID();
-    const newResponse: PlacementResponse = { ...response, id, createdAt: new Date() };
+    const newResponse: PlacementResponse = {
+      id,
+      userId: response.userId ?? null,
+      email: response.email,
+      name: response.name,
+      responses: response.responses,
+      recommendedTrack: response.recommendedTrack,
+      score: response.score,
+      createdAt: new Date(),
+    };
     this.placementResponsesMap.set(id, newResponse);
     return newResponse;
   }
@@ -608,7 +674,15 @@ export class MemStorage implements IStorage {
   // Contact
   async createContactMessage(message: InsertContactMessage): Promise<ContactMessage> {
     const id = randomUUID();
-    const newMessage: ContactMessage = { ...message, id, isRead: false, createdAt: new Date() };
+    const newMessage: ContactMessage = {
+      id,
+      name: message.name,
+      email: message.email,
+      subject: message.subject ?? null,
+      message: message.message,
+      isRead: false,
+      createdAt: new Date(),
+    };
     this.contactMessagesMap.set(id, newMessage);
     return newMessage;
   }

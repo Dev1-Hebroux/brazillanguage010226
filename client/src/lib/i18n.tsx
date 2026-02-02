@@ -71,6 +71,27 @@ const translations: Translations = {
     "footer.privacy": "Privacy Policy",
     "footer.terms": "Terms of Service",
     "footer.rights": "© 2026 Horizonte English Community. All rights reserved.",
+
+    // Auth
+    "login": "Login",
+    "loginDescription": "Enter your credentials to access your account",
+    "loggingIn": "Logging in...",
+    "email": "Email",
+    "password": "Password",
+    "noAccount": "Don't have an account?",
+    "registerHere": "Register here",
+    "register": "Register",
+    "registerDescription": "Create an account to join our English learning community",
+    "registering": "Creating account...",
+    "name": "Name",
+    "namePlaceholder": "Your full name",
+    "phone": "Phone",
+    "optional": "optional",
+    "confirmPassword": "Confirm Password",
+    "haveAccount": "Already have an account?",
+    "loginHere": "Login here",
+    "logout": "Logout",
+    "myAccount": "My Account",
   },
   pt: {
     // Nav
@@ -134,6 +155,27 @@ const translations: Translations = {
     "footer.privacy": "Política de Privacidade",
     "footer.terms": "Termos de Uso",
     "footer.rights": "© 2026 Horizonte English Community. Todos os direitos reservados.",
+
+    // Auth
+    "login": "Entrar",
+    "loginDescription": "Digite suas credenciais para acessar sua conta",
+    "loggingIn": "Entrando...",
+    "email": "Email",
+    "password": "Senha",
+    "noAccount": "Não tem uma conta?",
+    "registerHere": "Cadastre-se aqui",
+    "register": "Cadastrar",
+    "registerDescription": "Crie uma conta para participar da nossa comunidade de inglês",
+    "registering": "Criando conta...",
+    "name": "Nome",
+    "namePlaceholder": "Seu nome completo",
+    "phone": "Telefone",
+    "optional": "opcional",
+    "confirmPassword": "Confirmar Senha",
+    "haveAccount": "Já tem uma conta?",
+    "loginHere": "Entre aqui",
+    "logout": "Sair",
+    "myAccount": "Minha Conta",
   }
 };
 
@@ -166,3 +208,6 @@ export function useLanguage() {
   }
   return context;
 }
+
+// Alias for convenience
+export const useTranslation = useLanguage;
