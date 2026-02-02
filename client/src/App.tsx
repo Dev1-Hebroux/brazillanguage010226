@@ -10,7 +10,10 @@ import Resources from "@/pages/Resources";
 import Community from "@/pages/Community";
 import Events from "@/pages/Events";
 import CohortDashboard from "@/pages/CohortDashboard";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
 import { LanguageProvider } from "@/lib/i18n";
+import { AuthProvider } from "@/hooks/use-auth";
 
 function Router() {
   return (
@@ -21,6 +24,8 @@ function Router() {
       <Route path="/community" component={Community} />
       <Route path="/events" component={Events} />
       <Route path="/dashboard" component={CohortDashboard} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -29,12 +34,14 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </LanguageProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </LanguageProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
