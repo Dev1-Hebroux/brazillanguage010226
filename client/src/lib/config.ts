@@ -5,7 +5,7 @@
 
 // WhatsApp — set the real number here (international format, no + or spaces)
 // Example: "5561999999999" for a Brasília number
-export const WHATSAPP_NUMBER = "";
+export const WHATSAPP_NUMBER = "5561998751970";
 
 export function whatsappLink(message?: string) {
   const base = WHATSAPP_NUMBER
