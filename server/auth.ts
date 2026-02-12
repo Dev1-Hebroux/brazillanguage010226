@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import { storage } from "./storage";
-import { insertUserSchema } from "@shared/schema";
+import { insertUserSchema, type UserRole } from "@shared/schema";
 import { z } from "zod";
 
 declare module "express-session" {
@@ -30,7 +30,7 @@ authRouter.post("/api/auth/register", async (req: Request, res: Response) => {
     const user = await storage.createUser({ username, password: hashedPassword });
 
     req.session.userId = user.id;
-    res.status(201).json({ id: user.id, username: user.username });
+    res.status(201).json({ id: user.id, username: user.username, role: user.role });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: error.errors[0].message });
@@ -59,7 +59,7 @@ authRouter.post("/api/auth/login", async (req: Request, res: Response) => {
     }
 
     req.session.userId = user.id;
-    res.json({ id: user.id, username: user.username });
+    res.json({ id: user.id, username: user.username, role: user.role });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Login failed" });
@@ -86,7 +86,7 @@ authRouter.get("/api/auth/me", async (req: Request, res: Response) => {
     return res.status(401).json({ message: "User not found" });
   }
 
-  res.json({ id: user.id, username: user.username });
+  res.json({ id: user.id, username: user.username, role: user.role });
 });
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
@@ -94,4 +94,23 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     return res.status(401).json({ message: "Authentication required" });
   }
   next();
+}
+
+export function requireRole(...roles: UserRole[]) {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.session.userId) {
+      return res.status(401).json({ message: "Authentication required" });
+    }
+
+    const user = await storage.getUser(req.session.userId);
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    if (!roles.includes(user.role as UserRole)) {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    next();
+  };
 }

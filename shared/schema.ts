@@ -7,6 +7,7 @@ export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
+  role: text("role").notNull().default("student"),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
@@ -16,6 +17,7 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+export type UserRole = "student" | "trainer" | "admin";
 
 export const cohortApplications = pgTable("cohort_applications", {
   id: serial("id").primaryKey(),

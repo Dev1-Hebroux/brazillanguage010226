@@ -491,9 +491,16 @@ function CohortInsideView({ track }: { track: Track }) {
                       <Mic className="w-4 h-4" /> Submit Voice Recording (WhatsApp)
                     </Button>
                   </a>
-                  <Button variant="outline" className="rounded-xl font-bold h-12 gap-2 flex-1">
-                    <Upload className="w-4 h-4" /> Upload Writing
-                  </Button>
+                  <a
+                    href={whatsappLink(`Week ${week.week} writing submission – ${track?.title ?? "cohort"}`)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1"
+                  >
+                    <Button variant="outline" className="w-full rounded-xl font-bold h-12 gap-2">
+                      <Upload className="w-4 h-4" /> Submit Writing (WhatsApp)
+                    </Button>
+                  </a>
                 </div>
 
                 {week.assessment && week.assessment.length > 0 && (

@@ -3,11 +3,15 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertCohortApplicationSchema, insertEventRsvpSchema, insertContactMessageSchema } from "@shared/schema";
 import { z } from "zod";
+import { adminRouter } from "./admin-routes";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+
+  // Mount admin routes
+  app.use(adminRouter);
 
   app.post("/api/cohort-applications", async (req, res) => {
     try {

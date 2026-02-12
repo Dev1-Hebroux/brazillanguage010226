@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Heart, ExternalLink, Globe, LogIn, LogOut, User } from "lucide-react";
+import { Menu, X, Instagram, Heart, ExternalLink, Globe, LogIn, LogOut, User, Shield } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -23,6 +23,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isAdminOrTrainer = user?.role === "admin" || user?.role === "trainer";
+
   const navLinks = [
     { href: "/", label: t("nav.home") },
     { href: "/cohorts", label: t("nav.cohorts") },
@@ -30,6 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { href: "/events", label: t("nav.events") },
     { href: "/community", label: t("nav.community") },
     { href: "/dashboard", label: t("nav.dashboard") },
+    ...(isAdminOrTrainer ? [{ href: "/admin", label: "Admin" }] : []),
   ];
 
   return (

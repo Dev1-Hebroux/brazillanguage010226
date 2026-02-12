@@ -6,6 +6,7 @@ import { serveStatic } from "./static";
 import { createServer } from "http";
 import { pool } from "../db";
 import { authRouter } from "./auth";
+import { seedAccounts } from "./seed";
 
 const app = express();
 const httpServer = createServer(app);
@@ -85,6 +86,13 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Seed admin/trainer accounts on startup
+  try {
+    await seedAccounts();
+  } catch (err) {
+    console.error("Seed error (non-fatal):", err);
+  }
+
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

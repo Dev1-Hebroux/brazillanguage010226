@@ -1,23 +1,48 @@
+import { useState } from "react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Play, Download, FileText, MessageCircle, CheckCircle, Clock } from "lucide-react";
+import { Play, Download, FileText, MessageCircle, CheckCircle, Clock, Volume2 } from "lucide-react";
 import heroImage from "@assets/generated_images/sophisticated_adult_learning_resources_flatlay.png";
 import { whatsappLink } from "@/lib/config";
+import { Link } from "wouter";
+
+const QUIZ_QUESTIONS = [
+  {
+    question: "1. Can you introduce yourself confidently in English?",
+    options: ["Yes, easily", "Sometimes", "Not yet"],
+  },
+  {
+    question: "2. Can you order food or ask for directions?",
+    options: ["Yes, usually", "With difficulty", "I use a translator"],
+  },
+];
+
+function getRecommendation(answers: Record<number, number>): { track: string; trackId: string; description: string } | null {
+  if (Object.keys(answers).length < QUIZ_QUESTIONS.length) return null;
+  const score = Object.values(answers).reduce((sum, v) => sum + v, 0);
+  // score 0 = best answers, score 4 = worst
+  if (score <= 1) return { track: "Intermediate", trackId: "intermediate", description: "You have a solid foundation. Let's build fluency and confidence!" };
+  if (score <= 2) return { track: "A2 Elementary", trackId: "a2-elementary", description: "You know some basics. Let's expand your vocabulary and conversation skills!" };
+  return { track: "A1 Beginner", trackId: "a1-beginner", description: "A perfect starting point. We'll build your English from the ground up!" };
+}
 
 export default function Resources() {
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
+  const recommendation = getRecommendation(quizAnswers);
+
   return (
     <Layout>
       <div className="relative py-20 md:py-28 bg-yellow-400 overflow-hidden min-h-[480px] flex items-center">
         <div className="absolute inset-0 z-0">
-           <img 
-             src={heroImage} 
-             className="w-full h-full object-cover opacity-20" 
-             alt="Learning resources" 
+           <img
+             src={heroImage}
+             className="w-full h-full object-cover opacity-20"
+             alt="Learning resources"
              loading="eager"
              fetchPriority="high"
            />
         </div>
-        
+
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl">
             <h1 className="text-4xl sm:text-6xl md:text-8xl font-heading font-black mb-4 sm:mb-6 text-foreground drop-shadow-sm tracking-tight leading-[0.9]">
@@ -32,10 +57,10 @@ export default function Resources() {
 
       <div className="container mx-auto px-4 md:px-6 py-12 md:py-20">
         <div className="grid lg:grid-cols-[2fr_1fr] gap-8 md:gap-12">
-          
+
           {/* Main Content Area */}
           <div className="space-y-12">
-            
+
             {/* Placement Section */}
             <section className="space-y-6">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-primary flex items-center gap-3 sm:gap-4">
@@ -44,29 +69,51 @@ export default function Resources() {
               </h2>
               <div className="bg-white rounded-2xl sm:rounded-[2.5rem] border border-border shadow-2xl p-4 sm:p-6 md:p-10 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-yellow-400/20 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110" />
-                
+
                 <p className="text-lg md:text-xl text-foreground/80 font-medium mb-8 relative z-10 leading-relaxed">
-                  Answer these simple questions to find your best fit. Be honest—there is no wrong answer!
+                  Answer these simple questions to find your best fit. Be honest — there is no wrong answer!
                 </p>
-                
+
                 <div className="space-y-6 mb-8 relative z-10">
-                   <div className="p-4 sm:p-6 md:p-8 bg-slate-50/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-slate-100 hover:border-slate-200 transition-colors">
-                     <p className="font-bold text-base sm:text-xl mb-4 sm:mb-6 text-foreground">1. Can you introduce yourself confidently in English?</p>
-                     <div className="flex flex-wrap gap-2 sm:gap-3">
-                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, easily</Button>
-                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Sometimes</Button>
-                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Not yet</Button>
-                     </div>
-                   </div>
-                   <div className="p-4 sm:p-6 md:p-8 bg-slate-50/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-slate-100 hover:border-slate-200 transition-colors">
-                     <p className="font-bold text-base sm:text-xl mb-4 sm:mb-6 text-foreground">2. Can you order food or ask for directions?</p>
-                     <div className="flex flex-wrap gap-2 sm:gap-3">
-                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, usually</Button>
-                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">With difficulty</Button>
-                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">I use a translator</Button>
-                     </div>
-                   </div>
+                  {QUIZ_QUESTIONS.map((q, qi) => (
+                    <div key={qi} className="p-4 sm:p-6 md:p-8 bg-slate-50/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-slate-100 hover:border-slate-200 transition-colors">
+                      <p className="font-bold text-base sm:text-xl mb-4 sm:mb-6 text-foreground">{q.question}</p>
+                      <div className="flex flex-wrap gap-2 sm:gap-3">
+                        {q.options.map((opt, oi) => (
+                          <Button
+                            key={opt}
+                            variant="outline"
+                            className={`rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium transition-all ${
+                              quizAnswers[qi] === oi
+                                ? "border-primary text-primary bg-primary/10"
+                                : "hover:border-primary hover:text-primary hover:bg-primary/5"
+                            }`}
+                            onClick={() => setQuizAnswers(prev => ({ ...prev, [qi]: oi }))}
+                          >
+                            {opt}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
+
+                {/* Recommendation */}
+                {recommendation && (
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6 mb-6 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="flex items-center gap-2 mb-2">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="font-bold text-green-800">Your Recommended Level</span>
+                    </div>
+                    <h3 className="text-2xl font-heading font-bold text-foreground mb-2">{recommendation.track}</h3>
+                    <p className="text-muted-foreground mb-4">{recommendation.description}</p>
+                    <Link href={`/cohorts/${recommendation.trackId}`}>
+                      <Button className="rounded-full bg-primary hover:bg-primary/90 text-white font-bold px-8">
+                        View {recommendation.track} Cohort
+                      </Button>
+                    </Link>
+                  </div>
+                )}
 
                 <div className="flex flex-col sm:flex-row items-center gap-6 bg-gradient-to-r from-blue-600 to-blue-500 p-6 md:p-8 rounded-3xl shadow-lg relative z-10 text-white">
                    <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center shrink-0 font-bold text-3xl animate-pulse shadow-inner">?</div>
@@ -90,7 +137,7 @@ export default function Resources() {
                  <span className="w-8 h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center text-sm font-bold border border-accent-foreground/10">2</span>
                  <h2 className="text-3xl font-heading font-bold text-foreground">Try a Free Lesson</h2>
               </div>
-              
+
               <div className="bg-white rounded-3xl border border-border overflow-hidden shadow-xl">
                 <div className="bg-slate-900 p-6 border-b border-border flex items-center justify-between text-white">
                   <div>
@@ -113,10 +160,10 @@ export default function Resources() {
                          "Nice to meet you.",
                          "I work as a..."
                        ].map(phrase => (
-                         <div key={phrase} className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-primary/50 transition-colors group cursor-pointer">
+                         <div key={phrase} className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100" title="Audio coming soon">
                             <span className="font-medium text-foreground">{phrase}</span>
-                            <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-primary group-hover:scale-110 transition-transform shadow-sm">
-                              <Play className="w-3 h-3 ml-0.5" />
+                            <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-muted-foreground opacity-50 cursor-default">
+                              <Volume2 className="w-3 h-3" />
                             </div>
                          </div>
                        ))}
@@ -149,7 +196,7 @@ export default function Resources() {
           <div className="space-y-8">
             <div className="bg-primary p-8 rounded-3xl shadow-xl text-white relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-              
+
               <h3 className="font-heading font-bold text-2xl mb-4 relative z-10">Student Guide</h3>
               <p className="text-white/80 mb-8 font-medium relative z-10 leading-relaxed">
                 Everything you need to know about our community rules, schedules, and tips for success.

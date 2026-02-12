@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 type AuthUser = {
   id: string;
   username: string;
+  role: "student" | "trainer" | "admin";
 } | null;
 
 type AuthContextType = {

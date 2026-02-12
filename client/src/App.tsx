@@ -13,6 +13,8 @@ import CohortDashboard from "@/pages/CohortDashboard";
 import CohortDetail from "@/pages/CohortDetail";
 import Auth from "@/pages/Auth";
 import Tasters from "@/pages/Tasters";
+import AdminDashboard from "@/pages/AdminDashboard";
+import FAQ from "@/pages/FAQ";
 import { LanguageProvider } from "@/lib/i18n";
 import { AuthProvider } from "@/lib/auth";
 
@@ -29,6 +31,8 @@ function Router() {
       <Route path="/tasters" component={Tasters} />
       <Route path="/dashboard/:trackId" component={CohortDashboard} />
       <Route path="/dashboard" component={CohortDashboard} />
+      <Route path="/admin" component={AdminDashboard} />
+      <Route path="/faq" component={FAQ} />
       <Route component={NotFound} />
     </Switch>
   );
