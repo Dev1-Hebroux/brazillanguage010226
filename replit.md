@@ -35,7 +35,7 @@ The project uses a single repository with three main directories:
 - `Home` — Landing page with hero, how-it-works, about section
 - `Cohorts` — Browse available English tracks/cohorts
 - `CohortDetail` — Detailed view of a specific track with curriculum and application form
-- `CohortDashboard` — Weekly progress dashboard for enrolled learners (currently uses simulated progress data)
+- `CohortDashboard` — Weekly progress dashboard for enrolled learners (requires auth; unauthenticated users see sign-in prompt)
 - `Events` — English Café events listing with RSVP functionality
 - `Resources` — Placement tools, lessons, downloads
 - `Community` — Community values and information
@@ -100,6 +100,9 @@ Cohort curriculum data is defined client-side in `client/src/data/curriculum.ts`
 - **vaul** — Drawer component
 - **cmdk** — Command palette component
 - **recharts** — Charting library
+
+### Client Configuration
+- `client/src/config.ts` — Centralized config file for WhatsApp number, social media links, and legal page URLs. All external links across the app reference this single source of truth. Placeholder links show "Coming soon" states instead of dead `href="#"` links.
 
 ### Environment Variables
 - `DATABASE_URL` — PostgreSQL connection string (required)
