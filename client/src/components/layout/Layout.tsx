@@ -81,7 +81,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               className="font-bold flex items-center gap-2 hover:bg-primary/5"
             >
               <Globe className="w-4 h-4" />
-              {language === 'en' ? 'PT' : 'EN'}
+              {language === 'en' ? 'EN' : 'PT'}
             </Button>
 
             {user ? (
@@ -157,7 +157,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                      <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                         <Globe className="w-4 h-4 text-foreground/70" />
                      </div>
-                     {language === 'en' ? 'Mudar para Português' : 'Switch to English'}
+                     {language === 'en' ? 'Switch to Português' : 'Mudar para English'}
                   </Button>
 
                   {user ? (
