@@ -13,9 +13,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Shield, LogIn, Loader2, Users, CalendarDays, Mail, FileText,
-  Trash2, CheckCircle, XCircle, Plus, Clock
+  Trash2, CheckCircle, XCircle, Plus, Clock, Send
 } from "lucide-react";
 
 function StatusBadge({ status }: { status: string }) {
@@ -41,6 +43,7 @@ function RoleBadge({ role }: { role: string }) {
 function ApplicationsTab() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const [sendEmail, setSendEmail] = useState(true);
 
   const { data: apps = [], isLoading } = useQuery({
     queryKey: ["/api/admin/applications"],
@@ -57,7 +60,7 @@ function ApplicationsTab() {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status, sendEmail }),
       });
       if (!res.ok) throw new Error("Failed");
       return res.json();
@@ -86,8 +89,18 @@ function ApplicationsTab() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-lg">Cohort Applications ({apps.length})</CardTitle>
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="send-email"
+            checked={sendEmail}
+            onCheckedChange={(checked) => setSendEmail(checked === true)}
+          />
+          <Label htmlFor="send-email" className="text-sm text-muted-foreground cursor-pointer">
+            Email on approve/reject
+          </Label>
+        </div>
       </CardHeader>
       <CardContent>
         {apps.length === 0 ? (
@@ -553,6 +566,186 @@ function UsersTab() {
   );
 }
 
+// ─── Email Campaigns Tab (admin only) ─────────────────────────
+
+function EmailTab() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ subject: "", body: "", audience: "all" });
+
+  const { data: campaigns = [], isLoading } = useQuery({
+    queryKey: ["/api/admin/campaigns"],
+    queryFn: async () => {
+      const res = await fetch("/api/admin/campaigns", { credentials: "include" });
+      if (!res.ok) throw new Error("Failed");
+      return res.json();
+    },
+  });
+
+  const createCampaign = useMutation({
+    mutationFn: async () => {
+      const res = await fetch("/api/admin/campaigns", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/campaigns"] });
+      toast({ title: "Campaign created" });
+      setOpen(false);
+      setForm({ subject: "", body: "", audience: "all" });
+    },
+    onError: (err: Error) => {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    },
+  });
+
+  const sendCampaign = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await fetch(`/api/admin/campaigns/${id}/send`, {
+        method: "POST",
+        credentials: "include",
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed");
+      }
+      return res.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/campaigns"] });
+      toast({ title: "Campaign sent", description: data.message });
+    },
+    onError: (err: Error) => {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    },
+  });
+
+  if (isLoading) return <div className="flex justify-center py-12"><Loader2 className="w-6 h-6 animate-spin" /></div>;
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle className="text-lg">Email Campaigns ({campaigns.length})</CardTitle>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button size="sm" className="rounded-xl">
+              <Plus className="w-4 h-4 mr-1" /> New Campaign
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Create Email Campaign</DialogTitle>
+              <DialogDescription>Compose a newsletter or announcement to send to your audience.</DialogDescription>
+            </DialogHeader>
+            <form
+              onSubmit={(e) => { e.preventDefault(); createCampaign.mutate(); }}
+              className="space-y-4"
+            >
+              <div className="space-y-2">
+                <Label>Subject *</Label>
+                <Input
+                  value={form.subject}
+                  onChange={(e) => setForm(f => ({ ...f, subject: e.target.value }))}
+                  placeholder="Weekly Update - Horizonte Cafe"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Audience</Label>
+                <Select value={form.audience} onValueChange={(v) => setForm(f => ({ ...f, audience: v }))}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All contacts</SelectItem>
+                    <SelectItem value="approved">Approved applicants</SelectItem>
+                    <SelectItem value="track:a1-beginner">A1 Beginner</SelectItem>
+                    <SelectItem value="track:a2-elementary">A2 Elementary</SelectItem>
+                    <SelectItem value="track:intermediate">Intermediate</SelectItem>
+                    <SelectItem value="track:advanced">Advanced</SelectItem>
+                    <SelectItem value="events">Event RSVPs</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Body (HTML supported) *</Label>
+                <Textarea
+                  value={form.body}
+                  onChange={(e) => setForm(f => ({ ...f, body: e.target.value }))}
+                  placeholder="<h2>Hello!</h2><p>Here's what's happening this week...</p>"
+                  rows={8}
+                  required
+                />
+              </div>
+              <Button type="submit" className="w-full" disabled={createCampaign.isPending}>
+                {createCampaign.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Create Draft"}
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </CardHeader>
+      <CardContent>
+        {campaigns.length === 0 ? (
+          <p className="text-muted-foreground text-center py-8">No campaigns yet. Create your first one!</p>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Subject</TableHead>
+                <TableHead>Audience</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="hidden sm:table-cell">Sent</TableHead>
+                <TableHead className="hidden md:table-cell">Date</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {campaigns.map((c: any) => (
+                <TableRow key={c.id}>
+                  <TableCell className="font-medium max-w-[200px] truncate">{c.subject}</TableCell>
+                  <TableCell><Badge variant="outline">{c.audience}</Badge></TableCell>
+                  <TableCell>
+                    <Badge className={c.status === "sent" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}>
+                      {c.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell">{c.sentCount || 0}</TableCell>
+                  <TableCell className="hidden md:table-cell text-muted-foreground text-xs">
+                    {new Date(c.createdAt).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {c.status === "draft" && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 gap-1 text-blue-600"
+                        onClick={() => sendCampaign.mutate(c.id)}
+                        disabled={sendCampaign.isPending}
+                        title="Send campaign"
+                      >
+                        <Send className="w-4 h-4" /> Send
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 // ─── Main Admin Dashboard ──────────────────────────────────────
 
 export default function AdminDashboard() {
@@ -636,6 +829,11 @@ export default function AdminDashboard() {
               <Mail className="w-4 h-4" /> Messages
             </TabsTrigger>
             {isAdmin && (
+              <TabsTrigger value="email" className="gap-1.5">
+                <Send className="w-4 h-4" /> Email
+              </TabsTrigger>
+            )}
+            {isAdmin && (
               <TabsTrigger value="users" className="gap-1.5">
                 <Users className="w-4 h-4" /> Users
               </TabsTrigger>
@@ -646,6 +844,7 @@ export default function AdminDashboard() {
           <TabsContent value="events"><EventsTab /></TabsContent>
           <TabsContent value="rsvps"><RsvpsTab /></TabsContent>
           <TabsContent value="messages"><MessagesTab /></TabsContent>
+          {isAdmin && <TabsContent value="email"><EmailTab /></TabsContent>}
           {isAdmin && <TabsContent value="users"><UsersTab /></TabsContent>}
         </Tabs>
       </div>

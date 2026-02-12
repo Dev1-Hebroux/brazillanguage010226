@@ -28,12 +28,14 @@ export const cohortApplications = pgTable("cohort_applications", {
   englishLevel: text("english_level").notNull(),
   motivation: text("motivation"),
   status: text("status").notNull().default("pending"),
+  emailOptIn: boolean("email_opt_in").default(true),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const insertCohortApplicationSchema = createInsertSchema(cohortApplications).omit({
   id: true,
   status: true,
+  emailOptIn: true,
   createdAt: true,
 });
 
@@ -67,11 +69,13 @@ export const eventRsvps = pgTable("event_rsvps", {
   fullName: text("full_name").notNull(),
   email: text("email").notNull(),
   phone: text("phone"),
+  emailOptIn: boolean("email_opt_in").default(true),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const insertEventRsvpSchema = createInsertSchema(eventRsvps).omit({
   id: true,
+  emailOptIn: true,
   createdAt: true,
 });
 
@@ -93,3 +97,37 @@ export const insertContactMessageSchema = createInsertSchema(contactMessages).om
 
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
 export type ContactMessage = typeof contactMessages.$inferSelect;
+
+// ─── Email Queue ──────────────────────────────────────────────
+
+export const emailQueue = pgTable("email_queue", {
+  id: serial("id").primaryKey(),
+  to: text("to").notNull(),
+  subject: text("subject").notNull(),
+  html: text("html").notNull(),
+  status: text("status").notNull().default("pending"),
+  scheduledFor: timestamp("scheduled_for").notNull(),
+  sentAt: timestamp("sent_at"),
+  errorMessage: text("error_message"),
+  triggerType: text("trigger_type"),
+  triggerRefId: integer("trigger_ref_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type EmailQueueItem = typeof emailQueue.$inferSelect;
+
+// ─── Email Campaigns ─────────────────────────────────────────
+
+export const emailCampaigns = pgTable("email_campaigns", {
+  id: serial("id").primaryKey(),
+  subject: text("subject").notNull(),
+  body: text("body").notNull(),
+  audience: text("audience").notNull().default("all"),
+  status: text("status").notNull().default("draft"),
+  sentCount: integer("sent_count").default(0),
+  createdBy: varchar("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  sentAt: timestamp("sent_at"),
+});
+
+export type EmailCampaign = typeof emailCampaigns.$inferSelect;

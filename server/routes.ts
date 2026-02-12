@@ -4,6 +4,8 @@ import { storage } from "./storage";
 import { insertCohortApplicationSchema, insertEventRsvpSchema, insertContactMessageSchema } from "@shared/schema";
 import { z } from "zod";
 import { adminRouter } from "./admin-routes";
+import { sendEmailAsync } from "./email";
+import { cohortApplicationConfirmation, eventRsvpConfirmation, contactAutoReply } from "./email-templates";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -23,6 +25,15 @@ export async function registerRoutes(
       }
 
       const application = await storage.createCohortApplication(data);
+
+      // Fire-and-forget confirmation email
+      const email = cohortApplicationConfirmation({
+        fullName: application.fullName,
+        trackId: application.trackId,
+        applicationId: application.id,
+      });
+      sendEmailAsync({ to: application.email, subject: email.subject, html: email.html });
+
       res.status(201).json(application);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -89,6 +100,18 @@ export async function registerRoutes(
       }
 
       const rsvp = await storage.createEventRsvp(data);
+
+      // Fire-and-forget RSVP confirmation email
+      const email = eventRsvpConfirmation({
+        fullName: rsvp.fullName,
+        eventTitle: event.title,
+        eventDate: event.date,
+        eventTime: event.time,
+        eventLocation: event.location,
+        rsvpId: rsvp.id,
+      });
+      sendEmailAsync({ to: rsvp.email, subject: email.subject, html: email.html });
+
       res.status(201).json(rsvp);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -114,6 +137,11 @@ export async function registerRoutes(
     try {
       const data = insertContactMessageSchema.parse(req.body);
       const message = await storage.createContactMessage(data);
+
+      // Fire-and-forget auto-reply email
+      const email = contactAutoReply({ name: message.name });
+      sendEmailAsync({ to: message.email, subject: email.subject, html: email.html });
+
       res.status(201).json(message);
     } catch (error) {
       if (error instanceof z.ZodError) {

@@ -7,6 +7,8 @@ import { createServer } from "http";
 import { pool } from "../db";
 import { authRouter } from "./auth";
 import { seedAccounts } from "./seed";
+import { startEmailScheduler } from "./email-scheduler";
+import { unsubscribeRouter } from "./unsubscribe-routes";
 
 const app = express();
 const httpServer = createServer(app);
@@ -47,6 +49,7 @@ app.use(
 );
 
 app.use(authRouter);
+app.use(unsubscribeRouter);
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -86,10 +89,44 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Ensure schema is up-to-date (handles missing columns from schema changes)
+  // Ensure schema is up-to-date (handles missing columns/tables from schema changes)
   try {
     await pool.query(`
       ALTER TABLE users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'student'
+    `);
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS email_queue (
+        id SERIAL PRIMARY KEY,
+        "to" TEXT NOT NULL,
+        subject TEXT NOT NULL,
+        html TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'pending',
+        scheduled_for TIMESTAMP NOT NULL,
+        sent_at TIMESTAMP,
+        error_message TEXT,
+        trigger_type TEXT,
+        trigger_ref_id INTEGER,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `);
+    await pool.query(`
+      ALTER TABLE cohort_applications ADD COLUMN IF NOT EXISTS email_opt_in BOOLEAN DEFAULT true
+    `);
+    await pool.query(`
+      ALTER TABLE event_rsvps ADD COLUMN IF NOT EXISTS email_opt_in BOOLEAN DEFAULT true
+    `);
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS email_campaigns (
+        id SERIAL PRIMARY KEY,
+        subject TEXT NOT NULL,
+        body TEXT NOT NULL,
+        audience TEXT NOT NULL DEFAULT 'all',
+        status TEXT NOT NULL DEFAULT 'draft',
+        sent_count INTEGER DEFAULT 0,
+        created_by VARCHAR,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        sent_at TIMESTAMP
+      )
     `);
   } catch (err) {
     // Table may not exist yet (first run) — db:push will create it
@@ -104,6 +141,9 @@ app.use((req, res, next) => {
   }
 
   await registerRoutes(httpServer, app);
+
+  // Start email queue scheduler
+  startEmailScheduler();
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

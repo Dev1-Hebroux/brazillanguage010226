@@ -4,10 +4,12 @@ import {
   type Event, type InsertEvent,
   type EventRsvp, type InsertEventRsvp,
   type ContactMessage, type InsertContactMessage,
-  users, cohortApplications, events, eventRsvps, contactMessages
+  type EmailQueueItem, type EmailCampaign,
+  users, cohortApplications, events, eventRsvps, contactMessages,
+  emailQueue, emailCampaigns
 } from "@shared/schema";
 import { db } from "../db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, lte, and } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -38,6 +40,18 @@ export interface IStorage {
   createContactMessage(msg: InsertContactMessage): Promise<ContactMessage>;
   getContactMessages(): Promise<ContactMessage[]>;
   deleteContactMessage(id: number): Promise<boolean>;
+
+  // Email queue
+  enqueueEmail(data: { to: string; subject: string; html: string; scheduledFor: Date; triggerType?: string; triggerRefId?: number }): Promise<EmailQueueItem>;
+  getPendingEmails(limit: number): Promise<EmailQueueItem[]>;
+  markEmailSent(id: number): Promise<void>;
+  markEmailFailed(id: number, errorMessage: string): Promise<void>;
+
+  // Email campaigns
+  createCampaign(data: { subject: string; body: string; audience: string; createdBy?: string }): Promise<EmailCampaign>;
+  getCampaigns(): Promise<EmailCampaign[]>;
+  getCampaign(id: number): Promise<EmailCampaign | undefined>;
+  updateCampaignStatus(id: number, status: string, sentCount?: number): Promise<EmailCampaign | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -155,6 +169,52 @@ export class DatabaseStorage implements IStorage {
   async deleteContactMessage(id: number): Promise<boolean> {
     const result = await db.delete(contactMessages).where(eq(contactMessages.id, id)).returning();
     return result.length > 0;
+  }
+
+  // ─── Email Queue ────────────────────────────────────────────
+
+  async enqueueEmail(data: { to: string; subject: string; html: string; scheduledFor: Date; triggerType?: string; triggerRefId?: number }): Promise<EmailQueueItem> {
+    const [result] = await db.insert(emailQueue).values(data).returning();
+    return result;
+  }
+
+  async getPendingEmails(limit: number): Promise<EmailQueueItem[]> {
+    return db.select().from(emailQueue)
+      .where(and(eq(emailQueue.status, "pending"), lte(emailQueue.scheduledFor, new Date())))
+      .orderBy(emailQueue.scheduledFor)
+      .limit(limit);
+  }
+
+  async markEmailSent(id: number): Promise<void> {
+    await db.update(emailQueue).set({ status: "sent", sentAt: new Date() }).where(eq(emailQueue.id, id));
+  }
+
+  async markEmailFailed(id: number, errorMessage: string): Promise<void> {
+    await db.update(emailQueue).set({ status: "failed", errorMessage }).where(eq(emailQueue.id, id));
+  }
+
+  // ─── Email Campaigns ───────────────────────────────────────
+
+  async createCampaign(data: { subject: string; body: string; audience: string; createdBy?: string }): Promise<EmailCampaign> {
+    const [result] = await db.insert(emailCampaigns).values(data).returning();
+    return result;
+  }
+
+  async getCampaigns(): Promise<EmailCampaign[]> {
+    return db.select().from(emailCampaigns).orderBy(desc(emailCampaigns.createdAt));
+  }
+
+  async getCampaign(id: number): Promise<EmailCampaign | undefined> {
+    const [result] = await db.select().from(emailCampaigns).where(eq(emailCampaigns.id, id));
+    return result;
+  }
+
+  async updateCampaignStatus(id: number, status: string, sentCount?: number): Promise<EmailCampaign | undefined> {
+    const updates: any = { status };
+    if (status === "sent") updates.sentAt = new Date();
+    if (sentCount !== undefined) updates.sentCount = sentCount;
+    const [result] = await db.update(emailCampaigns).set(updates).where(eq(emailCampaigns.id, id)).returning();
+    return result;
   }
 }
 

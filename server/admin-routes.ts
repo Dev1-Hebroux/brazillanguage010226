@@ -3,6 +3,8 @@ import { storage } from "./storage";
 import { requireRole } from "./auth";
 import { insertEventSchema } from "@shared/schema";
 import { z } from "zod";
+import { sendEmailAsync } from "./email";
+import { applicationApproved, applicationRejected, welcomeDripDay0, welcomeDripDay2, welcomeDripDay6, newsletterEmail } from "./email-templates";
 
 export const adminRouter = Router();
 
@@ -24,12 +26,48 @@ adminRouter.get("/applications", async (_req: Request, res: Response) => {
 adminRouter.patch("/applications/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const { status } = req.body;
+    const { status, sendEmail: shouldSendEmail = true } = req.body;
     if (!status || !["pending", "approved", "rejected"].includes(status)) {
       return res.status(400).json({ message: "Invalid status" });
     }
     const updated = await storage.updateCohortApplicationStatus(id, status);
     if (!updated) return res.status(404).json({ message: "Application not found" });
+
+    // Send notification email if toggled on
+    if (shouldSendEmail && (status === "approved" || status === "rejected")) {
+      const templateData = {
+        fullName: updated.fullName,
+        trackId: updated.trackId,
+        applicationId: updated.id,
+      };
+      const email = status === "approved"
+        ? applicationApproved(templateData)
+        : applicationRejected(templateData);
+      sendEmailAsync({ to: updated.email, subject: email.subject, html: email.html });
+
+      // Queue welcome drip sequence on approval
+      if (status === "approved") {
+        const now = new Date();
+        const drips = [
+          { delay: 0, template: welcomeDripDay0 },
+          { delay: 2, template: welcomeDripDay2 },
+          { delay: 6, template: welcomeDripDay6 },
+        ];
+        for (const drip of drips) {
+          const scheduled = new Date(now.getTime() + drip.delay * 24 * 60 * 60 * 1000);
+          const dripEmail = drip.template(templateData);
+          storage.enqueueEmail({
+            to: updated.email,
+            subject: dripEmail.subject,
+            html: dripEmail.html,
+            scheduledFor: scheduled,
+            triggerType: "welcome-drip",
+            triggerRefId: updated.id,
+          }).catch(err => console.error("[DRIP] Failed to queue:", err));
+        }
+      }
+    }
+
     res.json(updated);
   } catch (error) {
     console.error("Admin: Error updating application:", error);
@@ -171,5 +209,90 @@ adminRouter.patch("/users/:id/role", requireRole("admin"), async (req: Request, 
   } catch (error) {
     console.error("Admin: Error updating user role:", error);
     res.status(500).json({ message: "Failed to update user role" });
+  }
+});
+
+// ─── Email Campaigns (admin only) ─────────────────────────────
+
+adminRouter.get("/campaigns", requireRole("admin"), async (_req: Request, res: Response) => {
+  try {
+    const campaigns = await storage.getCampaigns();
+    res.json(campaigns);
+  } catch (error) {
+    console.error("Admin: Error fetching campaigns:", error);
+    res.status(500).json({ message: "Failed to fetch campaigns" });
+  }
+});
+
+adminRouter.post("/campaigns", requireRole("admin"), async (req: Request, res: Response) => {
+  try {
+    const { subject, body, audience } = req.body;
+    if (!subject || !body) {
+      return res.status(400).json({ message: "Subject and body are required" });
+    }
+    const userId = (req as any).user?.id;
+    const campaign = await storage.createCampaign({ subject, body, audience: audience || "all", createdBy: userId });
+    res.status(201).json(campaign);
+  } catch (error) {
+    console.error("Admin: Error creating campaign:", error);
+    res.status(500).json({ message: "Failed to create campaign" });
+  }
+});
+
+adminRouter.post("/campaigns/:id/send", requireRole("admin"), async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const campaign = await storage.getCampaign(id);
+    if (!campaign) return res.status(404).json({ message: "Campaign not found" });
+    if (campaign.status === "sent") return res.status(400).json({ message: "Campaign already sent" });
+
+    // Collect audience emails
+    const emails = new Set<string>();
+    const audience = campaign.audience;
+
+    if (audience === "all" || audience === "approved" || audience.startsWith("track:")) {
+      const apps = await storage.getCohortApplications();
+      for (const app of apps) {
+        if (audience === "all") emails.add(app.email);
+        else if (audience === "approved" && app.status === "approved") emails.add(app.email);
+        else if (audience.startsWith("track:") && app.trackId === audience.replace("track:", "")) emails.add(app.email);
+      }
+    }
+
+    if (audience === "all" || audience === "events") {
+      const rsvps = await storage.getAllEventRsvps();
+      for (const rsvp of rsvps) {
+        emails.add(rsvp.email);
+      }
+    }
+
+    if (audience === "all") {
+      const contacts = await storage.getContactMessages();
+      for (const c of contacts) {
+        emails.add(c.email);
+      }
+    }
+
+    // Queue all emails
+    const { html } = newsletterEmail({ body: campaign.body });
+    const now = new Date();
+    let queued = 0;
+    for (const email of Array.from(emails)) {
+      await storage.enqueueEmail({
+        to: email,
+        subject: campaign.subject,
+        html,
+        scheduledFor: now,
+        triggerType: "campaign",
+        triggerRefId: campaign.id,
+      });
+      queued++;
+    }
+
+    await storage.updateCampaignStatus(id, "sent", queued);
+    res.json({ message: `Campaign queued for ${queued} recipient(s)` });
+  } catch (error) {
+    console.error("Admin: Error sending campaign:", error);
+    res.status(500).json({ message: "Failed to send campaign" });
   }
 });
