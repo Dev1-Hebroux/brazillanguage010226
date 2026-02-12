@@ -2,146 +2,152 @@ import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Calendar, Clock, MapPin } from "lucide-react";
+import { Check, Calendar, GraduationCap, Coffee } from "lucide-react";
+import { Link } from "wouter";
+import { tracks } from "@/data/curriculum";
 import heroImage from "@assets/generated_images/diverse_group_of_happy_students_studying_outdoors_in_brazil.png";
 
-const tracks = [
-  {
-    id: "foundations",
-    title: "Track 1: Foundations",
-    level: "Beginner",
-    description: "Goal: Speak in simple sentences without fear.",
-    features: [
-      "Learn basic greetings and introductions",
-      "Master simple daily routines",
-      "Practice ordering food and asking directions",
-      "Safe environment for first-time speakers"
-    ],
-    schedule: "Online • Tue/Thu 19:00",
-    color: "bg-blue-100 text-blue-800",
-    accent: "border-blue-200"
+const colorMap: Record<string, { bar: string; badge: string; badgeText: string; btn: string }> = {
+  "a1-beginner": {
+    bar: "bg-blue-500",
+    badge: "bg-blue-100 text-blue-800",
+    badgeText: "text-blue-800",
+    btn: "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200",
   },
-  {
-    id: "confidence",
-    title: "Track 2: Confidence",
-    level: "Low-Intermediate",
-    description: "Goal: Speak longer, handle real-life situations, improve flow.",
-    features: [
-      "Handle work and travel conversations",
-      "Improve pronunciation and flow",
-      "Share opinions and stories",
-      "Daily voice note feedback"
-    ],
-    schedule: "Online • Mon/Wed 20:00",
-    color: "bg-yellow-100 text-yellow-800",
-    accent: "border-yellow-200"
+  "a2-elementary": {
+    bar: "bg-emerald-500",
+    badge: "bg-emerald-100 text-emerald-800",
+    badgeText: "text-emerald-800",
+    btn: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-200",
   },
-  {
-    id: "cafe",
-    title: "Track 3: English Café",
-    level: "Open Community",
-    description: "Goal: Social practice, friendships, low-pressure speaking.",
-    features: [
-      "In-person meetups in Brasília",
-      "Game nights and themed discussions",
-      "Make new friends",
-      "Coffee and good vibes"
-    ],
-    schedule: "In-Person • Saturdays 10:00",
-    color: "bg-green-100 text-green-800",
-    accent: "border-green-200"
-  }
-];
+  intermediate: {
+    bar: "bg-violet-500",
+    badge: "bg-violet-100 text-violet-800",
+    badgeText: "text-violet-800",
+    btn: "bg-violet-600 hover:bg-violet-700 text-white shadow-violet-200",
+  },
+  advanced: {
+    bar: "bg-amber-500",
+    badge: "bg-amber-100 text-amber-800",
+    badgeText: "text-amber-800",
+    btn: "bg-amber-600 hover:bg-amber-700 text-white shadow-amber-200",
+  },
+};
 
 export default function Cohorts() {
   return (
     <Layout>
+      {/* Hero Section */}
       <div className="relative py-20 md:py-28 bg-gradient-to-r from-blue-600 to-green-500 overflow-hidden min-h-[480px] flex items-center">
         <div className="absolute inset-0 z-0">
-           <img 
-             src={heroImage} 
-             className="w-full h-full object-cover opacity-20 mix-blend-overlay" 
-             alt="Happy students studying" 
-             loading="eager"
-             fetchPriority="high"
-           />
-           <div className="absolute inset-0 bg-black/10" />
+          <img
+            src={heroImage}
+            className="w-full h-full object-cover opacity-20 mix-blend-overlay"
+            alt="Happy students studying"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="absolute inset-0 bg-black/10" />
         </div>
-        
+
         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center max-w-3xl">
           <div className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white font-bold text-sm mb-6 animate-in fade-in slide-in-from-top-4 duration-700 shadow-lg">
             Applications Open for February 2026
           </div>
           <h1 className="text-5xl md:text-7xl font-heading font-black mb-6 text-white drop-shadow-xl tracking-tight leading-[0.9]">
-            Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 drop-shadow-none">Track</span>
+            English for Impact — <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 drop-shadow-none">Cohort Programs</span>
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-medium leading-relaxed drop-shadow-md max-w-2xl mx-auto">
-            Whether you're just starting or looking to build confidence, we have a friendly group for you.
+            8-week cohorts designed for real communication progress (Beginner to Advanced).
+          </p>
+          <p className="text-sm text-white/70 mt-4 font-medium">
+            Designed by Professora Paz
           </p>
         </div>
       </div>
 
+      {/* 4 Cohort Cards */}
       <div className="container mx-auto px-4 md:px-6 py-12 md:py-20 -mt-10 md:-mt-16 relative z-20">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {tracks.map((track) => (
-            <Card key={track.id} className="flex flex-col border-none shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 bg-white overflow-hidden rounded-[2rem] group h-full">
-              <div className={`h-3 w-full ${track.color.split(" ")[0].replace("100", "500")}`} />
-              <CardHeader className="pb-2">
-                <Badge className={`w-fit mb-4 ${track.color} border-none font-bold text-xs md:text-sm px-3 py-1.5 uppercase tracking-wide`}>{track.level}</Badge>
-                <CardTitle className="text-2xl md:text-3xl font-heading font-bold text-foreground leading-tight group-hover:text-primary transition-colors">{track.title}</CardTitle>
-                <CardDescription className="text-base mt-2 text-muted-foreground font-medium leading-relaxed">{track.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow space-y-6 pt-4">
-                <ul className="space-y-4">
-                  {track.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm md:text-base text-foreground/80 font-medium">
-                      <div className={`mt-1 p-0.5 rounded-full ${track.color.split(" ")[0]} shrink-0`}>
-                         <Check className={`w-3 h-3 ${track.color.split(" ")[1]}`} />
-                      </div>
-                      <span className="leading-snug">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                
-                <div className="pt-6 border-t border-border mt-auto">
-                  <div className="flex flex-wrap gap-4">
-                     <div className="flex items-center gap-2 text-sm text-muted-foreground font-bold bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-                        <Calendar className="w-4 h-4 text-primary" />
-                        <span>8 Weeks</span>
-                     </div>
-                     <div className="flex items-center gap-2 text-sm text-muted-foreground font-bold bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-                        {track.schedule.includes("In-Person") ? <MapPin className="w-4 h-4 text-primary" /> : <Clock className="w-4 h-4 text-primary" />}
-                        <span>{track.schedule}</span>
-                     </div>
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+          {tracks.map((track) => {
+            const colors = colorMap[track.id] ?? colorMap["a1-beginner"];
+            return (
+              <Card key={track.id} className="flex flex-col border-none shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 bg-white overflow-hidden rounded-[2rem] group h-full">
+                <div className={`h-3 w-full ${colors.bar}`} />
+                <CardHeader className="pb-2">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Badge className={`${colors.badge} border-none font-bold text-xs px-3 py-1.5 uppercase tracking-wide`}>
+                      {track.cefrLevel}
+                    </Badge>
+                    <Badge variant="outline" className="font-bold text-xs px-3 py-1.5 uppercase tracking-wide">
+                      {track.level}
+                    </Badge>
                   </div>
-                </div>
-              </CardContent>
-              <CardFooter className="pt-2 pb-6 md:pb-8">
-                <Button size="lg" className={`w-full rounded-xl text-lg h-14 font-bold shadow-lg transition-all active:scale-[0.98] ${
-                  track.id === 'foundations' ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200' :
-                  track.id === 'confidence' ? 'bg-yellow-500 hover:bg-yellow-600 text-black shadow-yellow-200' :
-                  'bg-green-600 hover:bg-green-700 text-white shadow-green-200'
-                }`}>
-                  Apply for {track.title.split(":")[0]}
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+                  <CardTitle className="text-2xl md:text-3xl font-heading font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
+                    {track.title}
+                  </CardTitle>
+                  <CardDescription className="text-base mt-2 text-muted-foreground font-medium leading-relaxed">
+                    {track.whoItsFor}
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent className="flex-grow space-y-6 pt-4">
+                  {/* Outcomes */}
+                  <ul className="space-y-4">
+                    {track.outcomes.map((outcome, idx) => (
+                      <li key={idx} className="flex items-start gap-3 text-sm md:text-base text-foreground/80 font-medium">
+                        <div className={`mt-1 p-0.5 rounded-full ${colors.badge.split(" ")[0]} shrink-0`}>
+                          <Check className={`w-3 h-3 ${colors.badgeText}`} />
+                        </div>
+                        <span className="leading-snug">{outcome}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Final Assessment + Duration */}
+                  <div className="pt-6 border-t border-border mt-auto space-y-3">
+                    <div className="flex items-start gap-2 text-sm text-muted-foreground bg-slate-50 px-3 py-2 rounded-lg border border-slate-100">
+                      <GraduationCap className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                      <span><span className="font-bold">Final assessment:</span> {track.finalAssessment}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground font-bold bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 w-fit">
+                      <Calendar className="w-4 h-4 text-primary" />
+                      <span>{track.duration}</span>
+                    </div>
+                  </div>
+                </CardContent>
+
+                <CardFooter className="pt-2 pb-6 md:pb-8">
+                  <Link href={`/cohorts/${track.id}`} className="w-full">
+                    <Button size="lg" className={`w-full rounded-xl text-lg h-14 font-bold shadow-lg transition-all active:scale-[0.98] ${colors.btn}`}>
+                      View Cohort
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+            );
+          })}
         </div>
 
-        {/* Youth Section */}
-        <div className="mt-20 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-3xl p-8 md:p-12 border border-yellow-200 shadow-inner">
+        {/* English Café Section */}
+        <div className="mt-20 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-8 md:p-12 border border-green-200 shadow-inner">
           <div className="md:flex items-center justify-between gap-8">
             <div className="space-y-4 max-w-2xl">
-              <h3 className="text-3xl font-heading font-bold text-orange-900">Looking for Youth Programs?</h3>
-              <p className="text-orange-800/80 font-medium text-lg">
-                We have dedicated tracks for learners under 18, featuring more structure, shorter activities, and strong safeguarding rules to ensure a safe learning environment.
+              <div className="flex items-center gap-2">
+                <Coffee className="w-6 h-6 text-green-700" />
+                <h3 className="text-3xl font-heading font-bold text-green-900">English Café</h3>
+              </div>
+              <p className="text-green-800/80 font-medium text-lg">
+                Weekly conversation events for practice, community, and confidence — open to all levels.
+                In-person meetups in Brasília with game nights, themed discussions, and good vibes.
               </p>
             </div>
             <div className="mt-6 md:mt-0">
-              <Button size="lg" className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-bold shadow-lg h-14 px-8">
-                View Youth Cohorts
-              </Button>
+              <Link href="/events">
+                <Button size="lg" className="rounded-full bg-green-600 hover:bg-green-700 text-white font-bold shadow-lg h-14 px-8">
+                  View Events
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
