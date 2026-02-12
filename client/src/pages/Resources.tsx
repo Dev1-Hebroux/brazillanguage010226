@@ -1,7 +1,8 @@
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Play, Download, FileText, MessageCircle, CheckCircle } from "lucide-react";
+import { Play, Download, FileText, MessageCircle, CheckCircle, Clock } from "lucide-react";
 import heroImage from "@assets/generated_images/sophisticated_adult_learning_resources_flatlay.png";
+import { whatsappLink } from "@/lib/config";
 
 export default function Resources() {
   return (
@@ -73,8 +74,10 @@ export default function Resources() {
                      <p className="font-heading font-bold text-xl">Not sure?</p>
                      <p className="text-blue-100 text-sm md:text-base font-medium leading-snug">Send us a short voice note (30 seconds). We will recommend the perfect group.</p>
                    </div>
-                   <Button size="lg" className="w-full sm:w-auto sm:ml-auto h-14 px-8 bg-green-500 hover:bg-green-600 text-white rounded-full font-bold shadow-lg whitespace-nowrap text-lg transition-transform active:scale-95">
-                     WhatsApp Us
+                   <Button size="lg" className="w-full sm:w-auto sm:ml-auto h-14 px-8 bg-green-500 hover:bg-green-600 text-white rounded-full font-bold shadow-lg whitespace-nowrap text-lg transition-transform active:scale-95" asChild>
+                     <a href={whatsappLink("Hi! I'd like help finding my English level.")} target="_blank" rel="noreferrer">
+                       WhatsApp Us
+                     </a>
                    </Button>
                 </div>
               </div>
@@ -94,8 +97,8 @@ export default function Resources() {
                     <span className="font-bold text-xs text-yellow-400 uppercase tracking-wider block mb-1">Week 1 Preview</span>
                     <h3 className="text-xl font-bold">Welcome & Introductions</h3>
                   </div>
-                  <Button size="sm" className="bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/20">
-                    <Download className="w-4 h-4 mr-2" /> PDF
+                  <Button size="sm" className="bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/20 cursor-default opacity-60" disabled>
+                    <Clock className="w-4 h-4 mr-2" /> Coming Soon
                   </Button>
                 </div>
                 <div className="p-8 space-y-8">
@@ -130,8 +133,10 @@ export default function Resources() {
                           <p className="font-medium text-lg text-foreground mb-2">Voice Note Challenge (20s)</p>
                           <p className="text-muted-foreground italic">"Say hello to the group, tell us your name, and one thing you like (coffee, soccer, music)."</p>
                         </div>
-                        <Button className="bg-green-600 hover:bg-green-700 text-white rounded-full font-bold shadow-md self-start shrink-0">
-                          Open WhatsApp
+                        <Button className="bg-green-600 hover:bg-green-700 text-white rounded-full font-bold shadow-md self-start shrink-0" asChild>
+                          <a href={whatsappLink("Here's my voice note challenge!")} target="_blank" rel="noreferrer">
+                            Open WhatsApp
+                          </a>
                         </Button>
                       </div>
                    </div>
@@ -149,8 +154,8 @@ export default function Resources() {
               <p className="text-white/80 mb-8 font-medium relative z-10 leading-relaxed">
                 Everything you need to know about our community rules, schedules, and tips for success.
               </p>
-              <Button className="w-full bg-white text-primary hover:bg-white/90 font-bold rounded-full h-12 shadow-lg relative z-10">
-                <Download className="w-4 h-4 mr-2" /> Download Guide PDF
+              <Button className="w-full bg-white/60 text-primary/60 font-bold rounded-full h-12 shadow-lg relative z-10 cursor-default" disabled>
+                <Clock className="w-4 h-4 mr-2" /> Guide Coming Soon
               </Button>
             </div>
 
@@ -164,15 +169,15 @@ export default function Resources() {
                    {name: "Community Playlist", type: "Spotify"}
                  ].map((link, i) => (
                    <li key={i}>
-                     <a href="#" className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors group">
+                     <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
                        <div className="flex items-center gap-3">
                          <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
                             <FileText className="w-4 h-4" />
                          </div>
-                         <span className="font-medium text-foreground group-hover:text-primary transition-colors text-sm">{link.name}</span>
+                         <span className="font-medium text-foreground/70 text-sm">{link.name}</span>
                        </div>
-                       <Download className="w-4 h-4 text-slate-300 group-hover:text-primary transition-colors" />
-                     </a>
+                       <span className="text-xs text-muted-foreground font-medium">Soon</span>
+                     </div>
                    </li>
                  ))}
               </ul>

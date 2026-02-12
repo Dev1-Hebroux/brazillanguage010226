@@ -81,10 +81,10 @@ const defaultSessionFlow = (task: string): SessionFlowStep[] => [
 ];
 
 const defaultResources = (week: number, trackLabel: string): WeekResource[] => [
-  { id: `${trackLabel}-w${week}-slides`, title: `Week ${week} Slides`, type: "slides", href: "#" },
-  { id: `${trackLabel}-w${week}-worksheet`, title: `Week ${week} Worksheet`, type: "pdf", href: "#" },
-  { id: `${trackLabel}-w${week}-audio`, title: `Week ${week} Audio Practice`, type: "audio", href: "#" },
-  { id: `${trackLabel}-w${week}-homework`, title: `Week ${week} Homework`, type: "doc", href: "#" },
+  { id: `${trackLabel}-w${week}-slides`, title: `Week ${week} Slides`, type: "slides", href: "" },
+  { id: `${trackLabel}-w${week}-worksheet`, title: `Week ${week} Worksheet`, type: "pdf", href: "" },
+  { id: `${trackLabel}-w${week}-audio`, title: `Week ${week} Audio Practice`, type: "audio", href: "" },
+  { id: `${trackLabel}-w${week}-homework`, title: `Week ${week} Homework`, type: "doc", href: "" },
 ];
 
 export const tracks: Track[] = [

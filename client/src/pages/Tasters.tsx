@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTasterModule, tasterModules, type ScaffoldLang, type TasterActivity, type LocalizedText } from "@/data/tasters";
 import { Sparkles, RotateCcw, ChevronLeft, Mic, MessageSquare } from "lucide-react";
+import { whatsappLink } from "@/lib/config";
 
 function normalize(s: string) {
   return s.trim().toLowerCase();
@@ -305,7 +306,7 @@ export default function Tasters() {
 
                 <div className="flex flex-col gap-3 sm:flex-row pt-2">
                   <Button className="rounded-xl font-bold bg-green-600 hover:bg-green-700 text-white shadow-lg" asChild>
-                    <a href="https://wa.me/" target="_blank" rel="noreferrer">
+                    <a href={whatsappLink(`Week ${week} voice note – ${module.title}`)} target="_blank" rel="noreferrer">
                       <MessageSquare className="w-4 h-4 mr-2" />
                       Send Voice Note (WhatsApp)
                     </a>

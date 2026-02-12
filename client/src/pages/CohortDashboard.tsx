@@ -10,9 +10,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import {
   Mic, MessageCircle, Play, CheckCircle2, Lock, FileText, Clock, Trophy, Map,
-  ChevronRight, ChevronLeft, Upload, GraduationCap, BookOpen
+  ChevronRight, ChevronLeft, Upload, GraduationCap, BookOpen, LogIn
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { useAuth } from "@/lib/auth";
+import { whatsappLink } from "@/lib/config";
 
 type SimulatedProgress = {
   currentWeek: number;
@@ -445,19 +447,25 @@ function CohortInsideView({ track }: { track: Track }) {
               {/* Resources */}
               <TabsContent value="resources" className="space-y-6 animate-in fade-in-50 duration-500 slide-in-from-bottom-4">
                 <div className="grid md:grid-cols-2 gap-4">
-                  {week.resources.map((r) => (
-                    <Card key={r.id} className="hover:bg-muted/50 transition-all cursor-pointer group hover:border-primary/50 hover:shadow-md">
-                      <CardContent className="p-5 flex items-center gap-4">
-                        <div className="p-3 bg-blue-50 text-blue-600 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                          <FileText className="w-6 h-6" />
-                        </div>
-                        <div>
-                          <p className="font-bold text-foreground group-hover:text-primary transition-colors">{r.title}</p>
-                          <p className="text-xs text-muted-foreground mt-1 uppercase">{r.type}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {week.resources.map((r) => {
+                    const available = !!r.href;
+                    const Wrapper = available ? "a" : "div";
+                    return (
+                      <Wrapper key={r.id} {...(available ? { href: r.href, target: "_blank", rel: "noreferrer" } : {})} className="block">
+                        <Card className={cn("transition-all", available ? "hover:bg-muted/50 cursor-pointer group hover:border-primary/50 hover:shadow-md" : "opacity-60")}>
+                          <CardContent className="p-5 flex items-center gap-4">
+                            <div className={cn("p-3 rounded-xl shadow-sm transition-all duration-300", available ? "bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white" : "bg-slate-100 text-slate-400")}>
+                              <FileText className="w-6 h-6" />
+                            </div>
+                            <div className="flex-1">
+                              <p className={cn("font-bold transition-colors", available ? "text-foreground group-hover:text-primary" : "text-foreground/60")}>{r.title}</p>
+                              <p className="text-xs text-muted-foreground mt-1 uppercase">{available ? r.type : "Coming soon"}</p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Wrapper>
+                    );
+                  })}
                 </div>
               </TabsContent>
             </Tabs>
@@ -474,7 +482,7 @@ function CohortInsideView({ track }: { track: Track }) {
               <CardContent className="space-y-4">
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a
-                    href="https://wa.me/"
+                    href={whatsappLink(`Week ${week.week} voice submission`)}
                     target="_blank"
                     rel="noreferrer"
                     className="flex-1"
@@ -512,6 +520,38 @@ function CohortInsideView({ track }: { track: Track }) {
 
 export default function CohortDashboard() {
   const params = useParams<{ trackId?: string }>();
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20 text-center">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!user) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20 text-center max-w-md">
+          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+            <LogIn className="w-8 h-8 text-primary" />
+          </div>
+          <h1 className="text-3xl font-heading font-bold mb-3">Sign in to continue</h1>
+          <p className="text-muted-foreground font-medium mb-8">
+            You need to be signed in to access your cohort dashboard, track progress, and submit assignments.
+          </p>
+          <Link href="/auth">
+            <Button size="lg" className="rounded-full font-bold shadow-lg h-14 px-10">
+              <LogIn className="w-5 h-5 mr-2" /> Sign In
+            </Button>
+          </Link>
+        </div>
+      </Layout>
+    );
+  }
 
   if (!params.trackId) {
     return <CohortListView />;

@@ -7,6 +7,7 @@ import logoImage from "@assets/generated_images/minimalist_logo_with_horizon_lin
 import rccgLogo from "@assets/image_1767817496066.png";
 import { useLanguage } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
+import { SOCIAL_LINKS, LEGAL_LINKS } from "@/lib/config";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -226,12 +227,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div>
             <h4 className="font-heading font-bold mb-6">{t("footer.col.connect")}</h4>
             <div className="flex gap-4 mb-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <Heart className="w-5 h-5" />
-              </a>
+              {SOCIAL_LINKS.instagram && (
+                <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                  <Instagram className="w-5 h-5" />
+                </a>
+              )}
             </div>
             <p className="text-xs text-primary-foreground/60">
               Loja 1A, situada no 1º subsolo do Edifício Centro Comercial Boulevard no SDS - Brasília - DF.
@@ -259,8 +259,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                {/* Right: Legal */}
                <div className="flex gap-6">
                  <p>{t("footer.rights")}</p>
-                 <a href="#" className="hover:text-foreground transition-colors">{t("footer.privacy")}</a>
-                 <a href="#" className="hover:text-foreground transition-colors">{t("footer.terms")}</a>
+                 {LEGAL_LINKS.privacy && (
+                   <a href={LEGAL_LINKS.privacy} className="hover:text-foreground transition-colors">{t("footer.privacy")}</a>
+                 )}
+                 {LEGAL_LINKS.terms && (
+                   <a href={LEGAL_LINKS.terms} className="hover:text-foreground transition-colors">{t("footer.terms")}</a>
+                 )}
                </div>
              </div>
           </div>
