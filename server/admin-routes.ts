@@ -11,7 +11,7 @@ adminRouter.use(requireRole("admin", "trainer"));
 
 // ─── Applications ──────────────────────────────────────────────
 
-adminRouter.get("/api/admin/applications", async (_req: Request, res: Response) => {
+adminRouter.get("/applications", async (_req: Request, res: Response) => {
   try {
     const applications = await storage.getCohortApplications();
     res.json(applications);
@@ -21,7 +21,7 @@ adminRouter.get("/api/admin/applications", async (_req: Request, res: Response) 
   }
 });
 
-adminRouter.patch("/api/admin/applications/:id", async (req: Request, res: Response) => {
+adminRouter.patch("/applications/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const { status } = req.body;
@@ -37,7 +37,7 @@ adminRouter.patch("/api/admin/applications/:id", async (req: Request, res: Respo
   }
 });
 
-adminRouter.delete("/api/admin/applications/:id", async (req: Request, res: Response) => {
+adminRouter.delete("/applications/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const deleted = await storage.deleteCohortApplication(id);
@@ -51,7 +51,7 @@ adminRouter.delete("/api/admin/applications/:id", async (req: Request, res: Resp
 
 // ─── Events ────────────────────────────────────────────────────
 
-adminRouter.get("/api/admin/events", async (_req: Request, res: Response) => {
+adminRouter.get("/events", async (_req: Request, res: Response) => {
   try {
     const eventsList = await storage.getEvents();
     res.json(eventsList);
@@ -61,7 +61,7 @@ adminRouter.get("/api/admin/events", async (_req: Request, res: Response) => {
   }
 });
 
-adminRouter.post("/api/admin/events", async (req: Request, res: Response) => {
+adminRouter.post("/events", async (req: Request, res: Response) => {
   try {
     const data = insertEventSchema.parse(req.body);
     const event = await storage.createEvent(data);
@@ -75,7 +75,7 @@ adminRouter.post("/api/admin/events", async (req: Request, res: Response) => {
   }
 });
 
-adminRouter.patch("/api/admin/events/:id", async (req: Request, res: Response) => {
+adminRouter.patch("/events/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const updated = await storage.updateEvent(id, req.body);
@@ -87,7 +87,7 @@ adminRouter.patch("/api/admin/events/:id", async (req: Request, res: Response) =
   }
 });
 
-adminRouter.delete("/api/admin/events/:id", async (req: Request, res: Response) => {
+adminRouter.delete("/events/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const deleted = await storage.deleteEvent(id);
@@ -101,7 +101,7 @@ adminRouter.delete("/api/admin/events/:id", async (req: Request, res: Response) 
 
 // ─── RSVPs ─────────────────────────────────────────────────────
 
-adminRouter.get("/api/admin/rsvps", async (_req: Request, res: Response) => {
+adminRouter.get("/rsvps", async (_req: Request, res: Response) => {
   try {
     const rsvps = await storage.getAllEventRsvps();
     res.json(rsvps);
@@ -111,7 +111,7 @@ adminRouter.get("/api/admin/rsvps", async (_req: Request, res: Response) => {
   }
 });
 
-adminRouter.delete("/api/admin/rsvps/:id", async (req: Request, res: Response) => {
+adminRouter.delete("/rsvps/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const deleted = await storage.deleteEventRsvp(id);
@@ -125,7 +125,7 @@ adminRouter.delete("/api/admin/rsvps/:id", async (req: Request, res: Response) =
 
 // ─── Contact Messages ──────────────────────────────────────────
 
-adminRouter.get("/api/admin/contacts", async (_req: Request, res: Response) => {
+adminRouter.get("/contacts", async (_req: Request, res: Response) => {
   try {
     const messages = await storage.getContactMessages();
     res.json(messages);
@@ -135,7 +135,7 @@ adminRouter.get("/api/admin/contacts", async (_req: Request, res: Response) => {
   }
 });
 
-adminRouter.delete("/api/admin/contacts/:id", async (req: Request, res: Response) => {
+adminRouter.delete("/contacts/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const deleted = await storage.deleteContactMessage(id);
@@ -149,7 +149,7 @@ adminRouter.delete("/api/admin/contacts/:id", async (req: Request, res: Response
 
 // ─── Users (admin only) ────────────────────────────────────────
 
-adminRouter.get("/api/admin/users", requireRole("admin"), async (_req: Request, res: Response) => {
+adminRouter.get("/users", requireRole("admin"), async (_req: Request, res: Response) => {
   try {
     const usersList = await storage.getUsers();
     res.json(usersList.map(u => ({ id: u.id, username: u.username, role: u.role })));
@@ -159,7 +159,7 @@ adminRouter.get("/api/admin/users", requireRole("admin"), async (_req: Request, 
   }
 });
 
-adminRouter.patch("/api/admin/users/:id/role", requireRole("admin"), async (req: Request, res: Response) => {
+adminRouter.patch("/users/:id/role", requireRole("admin"), async (req: Request, res: Response) => {
   try {
     const { role } = req.body;
     if (!role || !["student", "trainer", "admin"].includes(role)) {

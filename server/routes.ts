@@ -10,8 +10,8 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
 
-  // Mount admin routes
-  app.use(adminRouter);
+  // Mount admin routes under /api/admin prefix
+  app.use("/api/admin", adminRouter);
 
   app.post("/api/cohort-applications", async (req, res) => {
     try {
