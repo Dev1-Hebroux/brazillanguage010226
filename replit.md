@@ -40,6 +40,7 @@ The project uses a single repository with three main directories:
 - `Resources` — Placement tools, lessons, downloads
 - `Community` — Community values and information
 - `Auth` — Login/register page
+- `Tasters` — Interactive Week 1 taster modules with MCQ + fill-in activities, bilingual scaffolding (PT-BR + ES-LA), track filter pills, and speaking prompts
 
 ### Backend
 
