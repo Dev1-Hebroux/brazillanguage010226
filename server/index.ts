@@ -86,6 +86,16 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Ensure schema is up-to-date (handles missing columns from schema changes)
+  try {
+    await pool.query(`
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'student'
+    `);
+  } catch (err) {
+    // Table may not exist yet (first run) — db:push will create it
+    console.error("Migration note (non-fatal):", err);
+  }
+
   // Seed admin/trainer accounts on startup
   try {
     await seedAccounts();
