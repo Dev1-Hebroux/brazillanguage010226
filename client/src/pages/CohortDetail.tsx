@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { BookOpen, GraduationCap, Target, ChevronLeft, Languages, Globe } from "lucide-react";
+import CohortApplicationForm from "@/components/CohortApplicationForm";
 
 export default function CohortDetail() {
   const params = useParams<{ trackId: string }>();
@@ -46,11 +47,15 @@ export default function CohortDetail() {
                 {track.communicativeFocus}
               </p>
             </div>
-            <Link href={`/dashboard/${track.id}`}>
-              <Button size="lg" className="rounded-full font-bold shadow-lg h-14 px-8 shrink-0">
-                Join Cohort
-              </Button>
-            </Link>
+            <CohortApplicationForm
+              trackId={track.id}
+              trackTitle={track.title}
+              trigger={
+                <Button size="lg" className="rounded-full font-bold shadow-lg h-14 px-8 shrink-0" data-testid="button-join-cohort">
+                  Join Cohort
+                </Button>
+              }
+            />
           </div>
         </div>
       </div>
@@ -238,11 +243,17 @@ export default function CohortDetail() {
                     </li>
                   ))}
                 </ul>
-                <Link href={`/dashboard/${track.id}`} className="block mt-6">
-                  <Button size="lg" className="w-full bg-white text-primary hover:bg-white/90 font-bold rounded-xl h-12 shadow-lg">
-                    Join Cohort
-                  </Button>
-                </Link>
+                <div className="mt-6">
+                  <CohortApplicationForm
+                    trackId={track.id}
+                    trackTitle={track.title}
+                    trigger={
+                      <Button size="lg" className="w-full bg-white text-primary hover:bg-white/90 font-bold rounded-xl h-12 shadow-lg" data-testid="button-join-cohort-sidebar">
+                        Join Cohort
+                      </Button>
+                    }
+                  />
+                </div>
               </CardContent>
             </Card>
 

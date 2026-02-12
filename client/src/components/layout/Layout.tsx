@@ -1,16 +1,18 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Heart, ExternalLink, Globe } from "lucide-react";
+import { Menu, X, Instagram, Heart, ExternalLink, Globe, LogIn, LogOut, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import logoImage from "@assets/generated_images/minimalist_logo_with_horizon_line_and_rising_arc.png";
 import rccgLogo from "@assets/image_1767817496066.png";
 import { useLanguage } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const { t, language, setLanguage } = useLanguage();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,8 +42,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }`}
       >
         <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-          <Link href="/">
-            <a className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-3 group">
               <div className="w-10 h-10 rounded-full overflow-hidden bg-white shadow-sm flex items-center justify-center">
                  <img src={logoImage} alt="Horizonte Café Logo" className="w-full h-full object-cover" />
               </div>
@@ -51,14 +52,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </span>
                 <span className="text-[10px] font-bold text-green-600 uppercase tracking-wider">English for Impact</span>
               </div>
-            </a>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
-                <a
+              <Link key={link.href} href={link.href}
                   className={`text-sm font-medium transition-colors hover:text-accent ${
                     location === link.href
                       ? "text-primary font-bold"
@@ -66,7 +65,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   }`}
                 >
                   {link.label}
-                </a>
               </Link>
             ))}
             
@@ -82,11 +80,32 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {language === 'en' ? 'PT' : 'EN'}
             </Button>
 
-            <Link href="/cohorts">
-              <Button size="sm" className="rounded-full px-6 bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all">
-                {t("nav.join")}
-              </Button>
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center" data-testid="text-username">
+                    <User className="w-4 h-4 text-primary" />
+                  </div>
+                  <span className="hidden lg:inline">{user.username}</span>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={logout}
+                  className="text-muted-foreground hover:text-foreground"
+                  data-testid="button-logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <Link href="/auth">
+                <Button size="sm" className="rounded-full px-6 bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all" data-testid="button-signin">
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Nav */}
@@ -113,16 +132,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {/* Links */}
                 <div className="flex-1 overflow-y-auto py-6 px-4 space-y-2">
                   {navLinks.map((link) => (
-                    <Link key={link.href} href={link.href}>
-                      <a className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-200 group ${
+                    <Link key={link.href} href={link.href} className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-200 group ${
                         location === link.href 
                           ? "bg-primary/10 text-primary font-bold shadow-sm" 
                           : "text-foreground/80 hover:bg-muted hover:text-foreground font-medium"
                       }`}>
-                        {/* Icons could be added here if we mapped them */}
                         <span className="text-lg">{link.label}</span>
                         {location === link.href && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />}
-                      </a>
                     </Link>
                   ))}
                 </div>
@@ -140,11 +156,30 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                      {language === 'en' ? 'Mudar para Português' : 'Switch to English'}
                   </Button>
 
-                  <Link href="/cohorts">
-                    <Button className="w-full rounded-xl h-12 bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all active:scale-[0.98]">
-                      {t("nav.join")}
-                    </Button>
-                  </Link>
+                  {user ? (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 px-2">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                          <User className="w-4 h-4 text-primary" />
+                        </div>
+                        <span className="font-bold text-foreground">{user.username}</span>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        onClick={logout}
+                        className="w-full rounded-xl h-12 font-bold text-lg transition-all"
+                        data-testid="button-mobile-logout"
+                      >
+                        <LogOut className="w-4 h-4 mr-2" /> Sign Out
+                      </Button>
+                    </div>
+                  ) : (
+                    <Link href="/auth">
+                      <Button className="w-full rounded-xl h-12 bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all active:scale-[0.98]" data-testid="button-mobile-signin">
+                        <LogIn className="w-4 h-4 mr-2" /> Sign In
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </SheetContent>
@@ -173,18 +208,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div>
             <h4 className="font-heading font-bold mb-6">{t("footer.col.community")}</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/80">
-              <li><Link href="/cohorts"><a className="hover:text-white transition-colors">{t("footer.link.cohorts")}</a></Link></li>
-              <li><Link href="/events"><a className="hover:text-white transition-colors">{t("footer.link.cafe")}</a></Link></li>
-              <li><Link href="/community"><a className="hover:text-white transition-colors">{t("footer.link.rules")}</a></Link></li>
+              <li><Link href="/cohorts" className="hover:text-white transition-colors">{t("footer.link.cohorts")}</Link></li>
+              <li><Link href="/events" className="hover:text-white transition-colors">{t("footer.link.cafe")}</Link></li>
+              <li><Link href="/community" className="hover:text-white transition-colors">{t("footer.link.rules")}</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-heading font-bold mb-6">{t("footer.col.resources")}</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/80">
-              <li><Link href="/resources"><a className="hover:text-white transition-colors">{t("footer.link.free")}</a></Link></li>
-              <li><Link href="/resources"><a className="hover:text-white transition-colors">{t("footer.link.guide")}</a></Link></li>
-              <li><Link href="/faq"><a className="hover:text-white transition-colors">{t("footer.link.faq")}</a></Link></li>
+              <li><Link href="/resources" className="hover:text-white transition-colors">{t("footer.link.free")}</Link></li>
+              <li><Link href="/resources" className="hover:text-white transition-colors">{t("footer.link.guide")}</Link></li>
+              <li><Link href="/faq" className="hover:text-white transition-colors">{t("footer.link.faq")}</Link></li>
             </ul>
           </div>
 

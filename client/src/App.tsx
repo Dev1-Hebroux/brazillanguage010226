@@ -11,12 +11,15 @@ import Community from "@/pages/Community";
 import Events from "@/pages/Events";
 import CohortDashboard from "@/pages/CohortDashboard";
 import CohortDetail from "@/pages/CohortDetail";
+import Auth from "@/pages/Auth";
 import { LanguageProvider } from "@/lib/i18n";
+import { AuthProvider } from "@/lib/auth";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/auth" component={Auth} />
       <Route path="/cohorts/:trackId" component={CohortDetail} />
       <Route path="/cohorts" component={Cohorts} />
       <Route path="/resources" component={Resources} />
@@ -32,12 +35,14 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </LanguageProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </LanguageProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
