@@ -45,7 +45,7 @@ function RsvpForm({ eventId, maxSpots }: { eventId: number; maxSpots: number | n
   return (
     <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) { setSubmitted(false); setFullName(""); setEmail(""); setPhone(""); } }}>
       <DialogTrigger asChild>
-        <Button size="lg" className="w-full h-16 text-xl rounded-full bg-green-600 hover:bg-green-700 text-white shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all font-bold" data-testid="button-rsvp">
+        <Button size="lg" className="w-full h-14 sm:h-16 text-lg sm:text-xl rounded-full bg-green-600 hover:bg-green-700 text-white shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all font-bold" data-testid="button-rsvp">
           RSVP Now
         </Button>
       </DialogTrigger>
@@ -121,22 +121,22 @@ export default function Events() {
             <Sun className="w-4 h-4 text-yellow-300" />
             In-Person Meetups
           </div>
-          <h1 className="text-6xl md:text-8xl font-heading font-black mb-6 text-white drop-shadow-xl tracking-tighter leading-[0.9]">
+          <h1 className="text-4xl sm:text-6xl md:text-8xl font-heading font-black mb-4 sm:mb-6 text-white drop-shadow-xl tracking-tighter leading-[0.9]">
             English Café <br className="hidden md:block"/> <span className="text-yellow-300">Brasília</span>
           </h1>
-          <p className="text-xl md:text-3xl text-white/90 font-bold max-w-2xl mx-auto drop-shadow-md leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-3xl text-white/90 font-bold max-w-2xl mx-auto drop-shadow-md leading-relaxed">
             Social practice, friendships, and low-pressure speaking. <br/>
             <span className="text-yellow-200 bg-white/10 px-2 rounded-lg">Coffee is on us!</span>
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-16 md:py-20 -mt-10 md:-mt-16 relative z-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+      <div className="container mx-auto px-4 md:px-6 py-10 sm:py-16 md:py-20 -mt-6 sm:-mt-10 md:-mt-16 relative z-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
            <div>
-             <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-2xl mb-12 border border-slate-100">
-               <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6 text-foreground">What to expect</h2>
-               <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed">
+             <div className="bg-white rounded-2xl sm:rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-2xl mb-8 sm:mb-12 border border-slate-100">
+               <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-4 sm:mb-6 text-foreground">What to expect</h2>
+               <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-medium leading-relaxed">
                  Our Café meets follow a "station" format so you never feel stuck or awkward. Move around, meet new people, and practice different topics.
                </p>
              </div>
@@ -174,13 +174,13 @@ export default function Events() {
                    bg: "bg-amber-50 border-amber-100"
                  }
                ].map((station, i) => (
-                 <div key={i} className={`flex items-start gap-5 p-6 rounded-3xl border shadow-sm hover:shadow-lg transition-all hover:scale-[1.02] duration-300 ${station.bg} bg-white group`}>
-                   <div className="p-4 bg-white rounded-2xl shrink-0 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
+                 <div key={i} className={`flex items-start gap-3 sm:gap-5 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border shadow-sm hover:shadow-lg transition-all hover:scale-[1.02] duration-300 ${station.bg} bg-white group`}>
+                   <div className="p-3 sm:p-4 bg-white rounded-xl sm:rounded-2xl shrink-0 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
                      {station.icon}
                    </div>
                    <div>
-                     <h3 className="font-heading font-bold text-xl mb-1.5 text-foreground">{station.title}</h3>
-                     <p className="text-base text-foreground/70 leading-relaxed font-medium">{station.desc}</p>
+                     <h3 className="font-heading font-bold text-lg sm:text-xl mb-1 sm:mb-1.5 text-foreground">{station.title}</h3>
+                     <p className="text-sm sm:text-base text-foreground/70 leading-relaxed font-medium">{station.desc}</p>
                    </div>
                  </div>
                ))}
@@ -188,9 +188,9 @@ export default function Events() {
            </div>
 
            <div className="space-y-8">
-             <div className="bg-white rounded-[2.5rem] shadow-2xl border-2 border-slate-100 p-8 md:p-12 sticky top-24">
-                <div className="inline-block px-4 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold uppercase tracking-wider mb-6">Upcoming</div>
-                <h3 className="text-4xl font-heading font-bold mb-8 text-foreground">Next Meetup</h3>
+             <div className="bg-white rounded-2xl sm:rounded-[2.5rem] shadow-2xl border-2 border-slate-100 p-6 sm:p-8 md:p-12 sticky top-24">
+                <div className="inline-block px-4 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold uppercase tracking-wider mb-4 sm:mb-6">Upcoming</div>
+                <h3 className="text-2xl sm:text-4xl font-heading font-bold mb-6 sm:mb-8 text-foreground">Next Meetup</h3>
                 
                 {isLoading ? (
                   <div className="flex justify-center py-12">
@@ -198,34 +198,34 @@ export default function Events() {
                   </div>
                 ) : nextEvent ? (
                   <>
-                    <div className="space-y-8 mb-10">
-                      <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-sm">
-                          <Calendar className="w-7 h-7" />
+                    <div className="space-y-5 sm:space-y-8 mb-8 sm:mb-10">
+                      <div className="flex items-center gap-3 sm:gap-5">
+                        <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-sm shrink-0">
+                          <Calendar className="w-5 h-5 sm:w-7 sm:h-7" />
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground font-bold uppercase tracking-wide">Date</p>
-                          <p className="font-heading font-bold text-2xl text-foreground" data-testid="text-event-date">{nextEvent.date}</p>
+                          <p className="text-xs sm:text-sm text-muted-foreground font-bold uppercase tracking-wide">Date</p>
+                          <p className="font-heading font-bold text-lg sm:text-2xl text-foreground" data-testid="text-event-date">{nextEvent.date}</p>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-sm">
-                          <Clock className="w-7 h-7" />
+                      <div className="flex items-center gap-3 sm:gap-5">
+                        <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-sm shrink-0">
+                          <Clock className="w-5 h-5 sm:w-7 sm:h-7" />
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground font-bold uppercase tracking-wide">Time</p>
-                          <p className="font-heading font-bold text-2xl text-foreground" data-testid="text-event-time">{nextEvent.time}</p>
+                          <p className="text-xs sm:text-sm text-muted-foreground font-bold uppercase tracking-wide">Time</p>
+                          <p className="font-heading font-bold text-lg sm:text-2xl text-foreground" data-testid="text-event-time">{nextEvent.time}</p>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center text-green-600 shadow-sm">
-                          <MapPin className="w-7 h-7" />
+                      <div className="flex items-center gap-3 sm:gap-5">
+                        <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-green-50 flex items-center justify-center text-green-600 shadow-sm shrink-0">
+                          <MapPin className="w-5 h-5 sm:w-7 sm:h-7" />
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground font-bold uppercase tracking-wide">Location</p>
-                          <p className="font-heading font-bold text-2xl text-foreground" data-testid="text-event-location">{nextEvent.location}</p>
+                          <p className="text-xs sm:text-sm text-muted-foreground font-bold uppercase tracking-wide">Location</p>
+                          <p className="font-heading font-bold text-lg sm:text-2xl text-foreground" data-testid="text-event-location">{nextEvent.location}</p>
                           {nextEvent.locationDetail && <p className="text-sm text-muted-foreground font-medium">{nextEvent.locationDetail}</p>}
                         </div>
                       </div>

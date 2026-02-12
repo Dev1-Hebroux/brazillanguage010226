@@ -174,19 +174,19 @@ function CohortInsideView({ track }: { track: Track }) {
       <div className="bg-muted/30 border-b border-border md:sticky md:top-[72px] z-30 backdrop-blur-sm bg-white/80 supports-[backdrop-filter]:bg-white/60">
         <div className="container mx-auto px-4 md:px-6 py-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-1">
-              <div className="flex items-center gap-3">
-                <Link href="/dashboard" className="text-muted-foreground hover:text-primary transition-colors">
+            <div className="space-y-1 min-w-0">
+              <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                <Link href="/dashboard" className="text-muted-foreground hover:text-primary transition-colors shrink-0">
                   <ChevronLeft className="w-5 h-5" />
                 </Link>
-                <h1 className="text-2xl md:text-3xl font-heading font-bold text-primary tracking-tight">
+                <h1 className="text-lg sm:text-2xl md:text-3xl font-heading font-bold text-primary tracking-tight">
                   My Cohort: {track.title}
                 </h1>
-                <Badge>{track.cefrLevel}</Badge>
+                <Badge className="shrink-0">{track.cefrLevel}</Badge>
               </div>
-              <p className="text-muted-foreground font-medium flex items-center gap-2 text-sm md:text-base pl-8">
-                <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                Week {selectedWeek} of 8 &bull; "{week.title}" &bull; Status: {status}
+              <p className="text-muted-foreground font-medium flex items-center gap-2 text-xs sm:text-sm md:text-base pl-7 sm:pl-8">
+                <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
+                <span className="truncate">Week {selectedWeek} of 8 &bull; "{week.title}" &bull; {status}</span>
               </p>
             </div>
 
@@ -306,7 +306,7 @@ function CohortInsideView({ track }: { track: Track }) {
 
               {/* Skills Grid */}
               {week.skills && (
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {week.skills.listening && (
                     <div className="rounded-lg border p-3 text-sm">
                       <div className="font-bold text-xs uppercase tracking-wider text-muted-foreground mb-1">Listening</div>
@@ -427,11 +427,11 @@ function CohortInsideView({ track }: { track: Track }) {
                       Here is what we will do together this week.
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-8 pl-6 md:pl-10">
-                    <div className="relative border-l-2 border-secondary/30 pl-8 space-y-10 ml-3 py-2">
+                  <CardContent className="space-y-8 pl-2 sm:pl-6 md:pl-10">
+                    <div className="relative border-l-2 border-secondary/30 pl-6 sm:pl-8 space-y-8 sm:space-y-10 ml-1 sm:ml-3 py-2">
                       {week.sessionFlow.map((step, idx) => (
                         <div key={idx} className="relative group">
-                          <div className="absolute -left-[41px] top-1 w-5 h-5 rounded-full border-4 border-white bg-secondary ring-2 ring-secondary/20 group-hover:scale-110 transition-transform" />
+                          <div className="absolute -left-[33px] sm:-left-[41px] top-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full border-4 border-white bg-secondary ring-2 ring-secondary/20 group-hover:scale-110 transition-transform" />
                           <h4 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
                             Step {step.step}: {step.title}{" "}
                             <span className="text-sm font-normal text-muted-foreground ml-2">({step.minutes} min)</span>

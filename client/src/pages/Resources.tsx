@@ -20,10 +20,10 @@ export default function Resources() {
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-6xl md:text-8xl font-heading font-black mb-6 text-foreground drop-shadow-sm tracking-tight leading-[0.9]">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-heading font-black mb-4 sm:mb-6 text-foreground drop-shadow-sm tracking-tight leading-[0.9]">
               Re<span className="text-white drop-shadow-md">sources</span>
             </h1>
-            <p className="text-xl md:text-3xl text-foreground/80 font-medium max-w-2xl leading-tight">
+            <p className="text-lg sm:text-xl md:text-3xl text-foreground/80 font-medium max-w-2xl leading-tight">
               Placement tools, free lessons, and downloads to help you start your journey.
             </p>
           </div>
@@ -38,11 +38,11 @@ export default function Resources() {
             
             {/* Placement Section */}
             <section className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary flex items-center gap-4">
-                <span className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-lg shadow-md">1</span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-primary flex items-center gap-3 sm:gap-4">
+                <span className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary text-white flex items-center justify-center text-base sm:text-lg shadow-md shrink-0">1</span>
                 Where should I start?
               </h2>
-              <div className="bg-white rounded-[2.5rem] border border-border shadow-2xl p-6 md:p-10 relative overflow-hidden group">
+              <div className="bg-white rounded-2xl sm:rounded-[2.5rem] border border-border shadow-2xl p-4 sm:p-6 md:p-10 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-yellow-400/20 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110" />
                 
                 <p className="text-lg md:text-xl text-foreground/80 font-medium mb-8 relative z-10 leading-relaxed">
@@ -50,20 +50,20 @@ export default function Resources() {
                 </p>
                 
                 <div className="space-y-6 mb-8 relative z-10">
-                   <div className="p-6 md:p-8 bg-slate-50/80 backdrop-blur-sm rounded-3xl border border-slate-100 hover:border-slate-200 transition-colors">
-                     <p className="font-bold text-xl mb-6 text-foreground">1. Can you introduce yourself confidently in English?</p>
-                     <div className="flex flex-wrap gap-3">
-                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, easily</Button>
-                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Sometimes</Button>
-                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Not yet</Button>
+                   <div className="p-4 sm:p-6 md:p-8 bg-slate-50/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-slate-100 hover:border-slate-200 transition-colors">
+                     <p className="font-bold text-base sm:text-xl mb-4 sm:mb-6 text-foreground">1. Can you introduce yourself confidently in English?</p>
+                     <div className="flex flex-wrap gap-2 sm:gap-3">
+                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, easily</Button>
+                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Sometimes</Button>
+                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Not yet</Button>
                      </div>
                    </div>
-                   <div className="p-6 md:p-8 bg-slate-50/80 backdrop-blur-sm rounded-3xl border border-slate-100 hover:border-slate-200 transition-colors">
-                     <p className="font-bold text-xl mb-6 text-foreground">2. Can you order food or ask for directions?</p>
-                     <div className="flex flex-wrap gap-3">
-                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, usually</Button>
-                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">With difficulty</Button>
-                       <Button variant="outline" className="rounded-full h-12 px-6 border-2 text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">I use a translator</Button>
+                   <div className="p-4 sm:p-6 md:p-8 bg-slate-50/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-slate-100 hover:border-slate-200 transition-colors">
+                     <p className="font-bold text-base sm:text-xl mb-4 sm:mb-6 text-foreground">2. Can you order food or ask for directions?</p>
+                     <div className="flex flex-wrap gap-2 sm:gap-3">
+                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">Yes, usually</Button>
+                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">With difficulty</Button>
+                       <Button variant="outline" className="rounded-full h-10 sm:h-12 px-4 sm:px-6 border-2 text-sm sm:text-base font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all">I use a translator</Button>
                      </div>
                    </div>
                 </div>

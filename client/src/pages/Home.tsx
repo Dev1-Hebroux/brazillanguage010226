@@ -28,42 +28,42 @@ export default function Home() {
                 ENGLISH FOR IMPACT — FREE CLASS
               </div>
               
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-heading font-black leading-[0.95] tracking-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-black leading-[0.95] tracking-tight">
                 <span className="block text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-blue-800 drop-shadow-sm">
                   {t("home.hero.title.speak")}
                 </span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-br from-green-500 to-emerald-700 drop-shadow-sm ml-4 md:ml-12">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-br from-green-500 to-emerald-700 drop-shadow-sm ml-2 sm:ml-4 md:ml-12">
                   {t("home.hero.title.connect")}
                 </span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-orange-500 drop-shadow-sm ml-8 md:ml-24 relative">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-orange-500 drop-shadow-sm ml-4 sm:ml-8 md:ml-24 relative">
                   {t("home.hero.title.grow")}
-                  <svg className="absolute -bottom-4 -right-8 w-24 h-24 text-yellow-400/30 -z-10" viewBox="0 0 100 100" fill="currentColor">
+                  <svg className="absolute -bottom-4 -right-8 w-16 sm:w-24 h-16 sm:h-24 text-yellow-400/30 -z-10" viewBox="0 0 100 100" fill="currentColor">
                     <path d="M50 0 L61 35 L97 35 L68 57 L79 91 L50 70 L21 91 L32 57 L3 35 L39 35 Z" />
                   </svg>
                 </span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-foreground/80 font-medium md:max-w-lg leading-relaxed drop-shadow-sm bg-white/30 backdrop-blur-sm p-4 rounded-2xl border border-white/40">
+              <p className="text-base sm:text-xl md:text-2xl text-foreground/80 font-medium md:max-w-lg leading-relaxed drop-shadow-sm bg-white/30 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border border-white/40">
                 {t("home.hero.subtitle")}
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link href="/cohorts">
-                  <Button size="lg" className="rounded-full text-lg h-16 px-10 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 font-bold border-2 border-white/20">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
+                <Link href="/cohorts" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto rounded-full text-base sm:text-lg h-14 sm:h-16 px-8 sm:px-10 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 font-bold border-2 border-white/20">
                     {t("home.hero.btn.cohort")}
                   </Button>
                 </Link>
-                <Link href="/events">
-                   <Button variant="outline" size="lg" className="rounded-full text-lg h-16 px-10 bg-white/50 backdrop-blur-md border-2 border-white hover:bg-white text-foreground hover:text-primary transition-all font-bold shadow-lg">
+                <Link href="/events" className="w-full sm:w-auto">
+                   <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full text-base sm:text-lg h-14 sm:h-16 px-8 sm:px-10 bg-white/50 backdrop-blur-md border-2 border-white hover:bg-white text-foreground hover:text-primary transition-all font-bold shadow-lg">
                     {t("home.hero.btn.cafe")}
                   </Button>
                 </Link>
               </div>
               
-              <div className="flex items-center gap-4 text-sm font-bold text-foreground/70 pt-4 bg-white/20 backdrop-blur-sm p-3 rounded-full w-fit border border-white/30">
-                <div className="flex -space-x-3">
+              <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm font-bold text-foreground/70 pt-4 bg-white/20 backdrop-blur-sm p-2.5 sm:p-3 rounded-full w-fit border border-white/30">
+                <div className="flex -space-x-2 sm:-space-x-3">
                   {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden shadow-md ring-2 ring-white/50">
+                    <div key={i} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden shadow-md ring-2 ring-white/50">
                        <div className={`w-full h-full bg-gradient-to-tr from-blue-400 via-green-400 to-yellow-400 opacity-80`} />
                     </div>
                   ))}
@@ -72,18 +72,18 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="relative animate-in fade-in slide-in-from-right-8 duration-1000 delay-200">
+            <div className="relative animate-in fade-in slide-in-from-right-8 duration-1000 delay-200 hidden sm:block">
               <div className="absolute -inset-4 bg-gradient-to-r from-green-400/30 to-blue-400/30 rounded-full blur-3xl opacity-70" />
-              <div className="relative rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-white rotate-2 hover:rotate-0 transition-transform duration-500 group">
+              <div className="relative rounded-[2rem] overflow-hidden shadow-2xl border-[6px] border-white md:rotate-2 hover:rotate-0 transition-transform duration-500 group">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                <img 
-                  src={heroImage} 
-                  alt="Friends laughing at a coffee table" 
+                <img
+                  src={heroImage}
+                  alt="Friends laughing at a coffee table"
                   className="w-full h-full object-cover aspect-[4/3] transform group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
               {/* Floating Cards */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-5 rounded-xl shadow-xl border border-yellow-100 max-w-[220px] animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500 z-20">
+              <div className="absolute -bottom-6 -left-6 bg-white p-5 rounded-xl shadow-xl border border-yellow-100 max-w-[220px] animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500 z-20 hidden md:block">
                  <div className="flex items-center gap-3 mb-2">
                    <div className="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center shadow-inner">
                      <MessageCircle size={20} />
@@ -209,18 +209,18 @@ export default function Home() {
         <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-l from-green-500/20 to-transparent"></div>
         
         <div className="container mx-auto px-4 md:px-6 max-w-4xl text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-heading font-bold mb-8 text-white drop-shadow-md">{t("home.cta.title")}</h2>
-          <p className="text-white/90 text-xl md:text-2xl mb-12 font-medium max-w-2xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold mb-6 sm:mb-8 text-white drop-shadow-md">{t("home.cta.title")}</h2>
+          <p className="text-white/90 text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 font-medium max-w-2xl mx-auto">
             {t("home.cta.subtitle")}
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-             <Link href="/cohorts">
-               <Button size="lg" className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 font-bold h-16 px-10 text-lg shadow-xl hover:scale-105 transition-transform">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4 sm:px-0">
+             <Link href="/cohorts" className="w-full sm:w-auto">
+               <Button size="lg" className="w-full sm:w-auto rounded-full bg-accent text-accent-foreground hover:bg-accent/90 font-bold h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg shadow-xl hover:scale-105 transition-transform">
                  {t("home.cta.btn.browse")}
                </Button>
              </Link>
-             <Link href="/resources">
-               <Button variant="outline" size="lg" className="rounded-full border-2 border-white/40 hover:bg-white/10 text-white h-16 px-10 text-lg backdrop-blur-sm font-bold">
+             <Link href="/resources" className="w-full sm:w-auto">
+               <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full border-2 border-white/40 hover:bg-white/10 text-white h-14 sm:h-16 px-8 sm:px-10 text-base sm:text-lg backdrop-blur-sm font-bold">
                  {t("home.cta.btn.free")}
                </Button>
              </Link>

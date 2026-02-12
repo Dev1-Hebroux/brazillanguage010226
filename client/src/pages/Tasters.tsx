@@ -185,7 +185,7 @@ export default function Tasters() {
             <ChevronLeft className="w-4 h-4" />
             Back to Cohorts
           </Link>
-          <h1 className="text-4xl md:text-5xl font-heading font-black mb-3 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black mb-3 tracking-tight">
             Week {week} Tasters
           </h1>
           <p className="text-lg text-white/80 font-medium max-w-2xl">

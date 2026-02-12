@@ -54,10 +54,10 @@ export default function Cohorts() {
           <div className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white font-bold text-sm mb-6 animate-in fade-in slide-in-from-top-4 duration-700 shadow-lg">
             Applications Open for February 2026
           </div>
-          <h1 className="text-5xl md:text-7xl font-heading font-black mb-6 text-white drop-shadow-xl tracking-tight leading-[0.9]">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-heading font-black mb-4 sm:mb-6 text-white drop-shadow-xl tracking-tight leading-[0.9]">
             English for Impact — <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 drop-shadow-none">Cohort Programs</span>
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 font-medium leading-relaxed drop-shadow-md max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl md:text-2xl text-white/90 font-medium leading-relaxed drop-shadow-md max-w-2xl mx-auto">
             8-week cohorts designed for real communication progress (Beginner to Advanced).
           </p>
           <p className="text-sm text-white/70 mt-4 font-medium">

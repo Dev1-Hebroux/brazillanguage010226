@@ -132,7 +132,7 @@ export default function CohortDetail() {
                           </div>
 
                           {w.skills && (
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               {w.skills.listening && (
                                 <div className="rounded-lg border p-3 text-sm">
                                   <div className="font-bold text-xs uppercase tracking-wider text-muted-foreground mb-1">Listening</div>

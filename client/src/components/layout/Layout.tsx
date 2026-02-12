@@ -194,9 +194,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-primary text-primary-foreground pt-16 mt-20">
-        <div className="container mx-auto px-4 md:px-6 grid md:grid-cols-4 gap-12 pb-16">
-          <div className="space-y-4">
+      <footer className="bg-primary text-primary-foreground pt-10 sm:pt-16 mt-12 sm:mt-20">
+        <div className="container mx-auto px-4 md:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 pb-12 md:pb-16">
+          <div className="space-y-4 col-span-2 md:col-span-1">
             <div className="flex items-center gap-2">
                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-heading font-bold">E</div>
                <span className="font-heading font-bold text-lg">English for Impact</span>
@@ -240,24 +240,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* Powered By Section */}
-        <div className="bg-white py-6">
+        <div className="bg-white py-4 sm:py-6">
           <div className="container mx-auto px-4 md:px-6">
-             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-               
+             <div className="flex flex-col items-center gap-3 sm:gap-4 text-xs text-muted-foreground md:flex-row md:justify-between">
+
                {/* Left: Attribution */}
-               <a 
-                 href="https://rccgsouthamerica.org/" 
-                 target="_blank" 
-                 rel="noopener noreferrer" 
-                 className="flex items-center gap-3 group transition-opacity hover:opacity-80"
+               <a
+                 href="https://rccgsouthamerica.org/"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="flex items-center gap-2 sm:gap-3 group transition-opacity hover:opacity-80"
                >
-                 <span className="font-medium text-foreground uppercase tracking-wider text-[10px]">An initiative of RCCG, Hallelujah House of Praise, Brasília</span>
-                 <img src={rccgLogo} alt="The Redeemed Christian Church of God Brazil" className="h-8 w-auto" />
-                 <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors" />
+                 <span className="font-medium text-foreground uppercase tracking-wider text-[10px] text-center sm:text-left">An initiative of RCCG, Hallelujah House of Praise, Brasília</span>
+                 <img src={rccgLogo} alt="The Redeemed Christian Church of God Brazil" className="h-6 sm:h-8 w-auto shrink-0" />
+                 <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
                </a>
 
                {/* Right: Legal */}
-               <div className="flex gap-6">
+               <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
                  <p>{t("footer.rights")}</p>
                  {LEGAL_LINKS.privacy && (
                    <a href={LEGAL_LINKS.privacy} className="hover:text-foreground transition-colors">{t("footer.privacy")}</a>
