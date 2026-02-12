@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { requireRole } from "./auth";
 import { insertEventSchema } from "@shared/schema";
@@ -10,6 +11,158 @@ export const adminRouter = Router();
 
 // All admin routes require at least trainer role
 adminRouter.use(requireRole("admin", "trainer"));
+
+// ─── Dashboard Stats ────────────────────────────────────────────
+
+adminRouter.get("/stats", async (_req: Request, res: Response) => {
+  try {
+    const stats = await storage.getAdminStats();
+    res.json(stats);
+  } catch (error) {
+    console.error("Admin: Error fetching stats:", error);
+    res.status(500).json({ message: "Failed to fetch stats" });
+  }
+});
+
+// ─── Email Log ──────────────────────────────────────────────────
+
+adminRouter.get("/email-log", async (_req: Request, res: Response) => {
+  try {
+    const log = await storage.getEmailLog(100);
+    res.json(log);
+  } catch (error) {
+    console.error("Admin: Error fetching email log:", error);
+    res.status(500).json({ message: "Failed to fetch email log" });
+  }
+});
+
+// ─── Bulk Application Actions ───────────────────────────────────
+
+adminRouter.post("/applications/bulk", async (req: Request, res: Response) => {
+  try {
+    const { ids, action } = req.body;
+    if (!ids || !Array.isArray(ids) || !["approved", "rejected"].includes(action)) {
+      return res.status(400).json({ message: "Invalid bulk action" });
+    }
+    const updated = await storage.bulkUpdateApplicationStatus(ids, action);
+    res.json({ message: `${updated} application(s) updated to ${action}` });
+  } catch (error) {
+    console.error("Admin: Error in bulk action:", error);
+    res.status(500).json({ message: "Failed to perform bulk action" });
+  }
+});
+
+// ─── Application Export ─────────────────────────────────────────
+
+adminRouter.get("/applications/export", async (_req: Request, res: Response) => {
+  try {
+    const apps = await storage.getCohortApplications();
+    const header = "ID,Full Name,Email,Phone,Track,English Level,Status,Date\n";
+    const rows = apps.map(a =>
+      `${a.id},"${(a.fullName || "").replace(/"/g, '""')}","${a.email}","${a.phone || ""}","${a.trackId}","${a.englishLevel}","${a.status}","${a.createdAt ? new Date(a.createdAt).toISOString() : ""}"`
+    ).join("\n");
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=applications.csv");
+    res.send(header + rows);
+  } catch (error) {
+    console.error("Admin: Error exporting applications:", error);
+    res.status(500).json({ message: "Failed to export" });
+  }
+});
+
+// ─── Event RSVP Export ──────────────────────────────────────────
+
+adminRouter.get("/events/:id/export", async (req: Request, res: Response) => {
+  try {
+    const eventId = parseInt(req.params.id);
+    const rsvps = await storage.getEventRsvps(eventId);
+    const header = "ID,Full Name,Email,Phone,Date\n";
+    const rows = rsvps.map(r =>
+      `${r.id},"${(r.fullName || "").replace(/"/g, '""')}","${r.email}","${r.phone || ""}","${r.createdAt ? new Date(r.createdAt).toISOString() : ""}"`
+    ).join("\n");
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", `attachment; filename=rsvps-event-${eventId}.csv`);
+    res.send(header + rows);
+  } catch (error) {
+    console.error("Admin: Error exporting RSVPs:", error);
+    res.status(500).json({ message: "Failed to export RSVPs" });
+  }
+});
+
+// ─── Contact Message Read Status ────────────────────────────────
+
+adminRouter.patch("/contacts/:id/read", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    await storage.markContactMessageRead(id);
+    res.json({ message: "Marked as read" });
+  } catch (error) {
+    console.error("Admin: Error marking message read:", error);
+    res.status(500).json({ message: "Failed to mark as read" });
+  }
+});
+
+// ─── Create User (admin only) ───────────────────────────────────
+
+adminRouter.post("/users/create", requireRole("admin"), async (req: Request, res: Response) => {
+  try {
+    const { username, password, role } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ message: "Username and password are required" });
+    }
+    const existing = await storage.getUserByUsername(username);
+    if (existing) {
+      return res.status(409).json({ message: "Username already taken" });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await storage.createUser({ username, password: hashedPassword });
+    if (role && ["student", "trainer", "admin"].includes(role)) {
+      await storage.updateUserRole(user.id, role);
+    }
+    res.status(201).json({ id: user.id, username: user.username, role: role || user.role });
+  } catch (error) {
+    console.error("Admin: Error creating user:", error);
+    res.status(500).json({ message: "Failed to create user" });
+  }
+});
+
+// ─── Google Forms ───────────────────────────────────────────────
+
+adminRouter.get("/google-forms", async (_req: Request, res: Response) => {
+  try {
+    const forms = await storage.getGoogleFormLinks();
+    res.json(forms);
+  } catch (error) {
+    console.error("Admin: Error fetching google forms:", error);
+    res.status(500).json({ message: "Failed to fetch google forms" });
+  }
+});
+
+adminRouter.post("/google-forms", async (req: Request, res: Response) => {
+  try {
+    const { title, formUrl, sheetCsvUrl, linkedTo, linkedId } = req.body;
+    if (!title || !formUrl) {
+      return res.status(400).json({ message: "Title and form URL are required" });
+    }
+    const form = await storage.createGoogleFormLink({ title, formUrl, sheetCsvUrl, linkedTo: linkedTo || "general", linkedId });
+    res.status(201).json(form);
+  } catch (error) {
+    console.error("Admin: Error creating google form link:", error);
+    res.status(500).json({ message: "Failed to create google form link" });
+  }
+});
+
+adminRouter.delete("/google-forms/:id", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const deleted = await storage.deleteGoogleFormLink(id);
+    if (!deleted) return res.status(404).json({ message: "Form link not found" });
+    res.json({ message: "Deleted" });
+  } catch (error) {
+    console.error("Admin: Error deleting google form link:", error);
+    res.status(500).json({ message: "Failed to delete" });
+  }
+});
 
 // ─── Applications ──────────────────────────────────────────────
 

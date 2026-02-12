@@ -129,6 +129,20 @@ app.use((req, res, next) => {
         sent_at TIMESTAMP
       )
     `);
+    await pool.query(`
+      ALTER TABLE contact_messages ADD COLUMN IF NOT EXISTS is_read BOOLEAN DEFAULT false
+    `);
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS google_form_links (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        form_url TEXT NOT NULL,
+        sheet_csv_url TEXT,
+        linked_to TEXT NOT NULL DEFAULT 'general',
+        linked_id TEXT,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `);
   } catch (err) {
     // Table may not exist yet (first run) — db:push will create it
     console.error("Migration note (non-fatal):", err);

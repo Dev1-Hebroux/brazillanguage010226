@@ -87,6 +87,7 @@ export const contactMessages = pgTable("contact_messages", {
   name: text("name").notNull(),
   email: text("email").notNull(),
   message: text("message").notNull(),
+  isRead: boolean("is_read").default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -131,3 +132,17 @@ export const emailCampaigns = pgTable("email_campaigns", {
 });
 
 export type EmailCampaign = typeof emailCampaigns.$inferSelect;
+
+// ─── Google Form Links ──────────────────────────────────────
+
+export const googleFormLinks = pgTable("google_form_links", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  formUrl: text("form_url").notNull(),
+  sheetCsvUrl: text("sheet_csv_url"),
+  linkedTo: text("linked_to").notNull().default("general"),
+  linkedId: text("linked_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type GoogleFormLink = typeof googleFormLinks.$inferSelect;

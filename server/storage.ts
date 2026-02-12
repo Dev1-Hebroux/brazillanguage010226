@@ -5,11 +5,12 @@ import {
   type EventRsvp, type InsertEventRsvp,
   type ContactMessage, type InsertContactMessage,
   type EmailQueueItem, type EmailCampaign,
+  type GoogleFormLink,
   users, cohortApplications, events, eventRsvps, contactMessages,
-  emailQueue, emailCampaigns
+  emailQueue, emailCampaigns, googleFormLinks
 } from "@shared/schema";
 import { db } from "../db";
-import { eq, desc, lte, and } from "drizzle-orm";
+import { eq, desc, lte, and, inArray } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -23,6 +24,7 @@ export interface IStorage {
   getCohortApplicationByEmail(email: string, trackId: string): Promise<CohortApplication | undefined>;
   updateCohortApplicationStatus(id: number, status: string): Promise<CohortApplication | undefined>;
   deleteCohortApplication(id: number): Promise<boolean>;
+  bulkUpdateApplicationStatus(ids: number[], status: string): Promise<number>;
 
   createEvent(event: InsertEvent): Promise<Event>;
   getEvents(): Promise<Event[]>;
@@ -40,18 +42,34 @@ export interface IStorage {
   createContactMessage(msg: InsertContactMessage): Promise<ContactMessage>;
   getContactMessages(): Promise<ContactMessage[]>;
   deleteContactMessage(id: number): Promise<boolean>;
+  markContactMessageRead(id: number): Promise<void>;
 
   // Email queue
   enqueueEmail(data: { to: string; subject: string; html: string; scheduledFor: Date; triggerType?: string; triggerRefId?: number }): Promise<EmailQueueItem>;
   getPendingEmails(limit: number): Promise<EmailQueueItem[]>;
   markEmailSent(id: number): Promise<void>;
   markEmailFailed(id: number, errorMessage: string): Promise<void>;
+  getEmailLog(limit: number): Promise<EmailQueueItem[]>;
 
   // Email campaigns
   createCampaign(data: { subject: string; body: string; audience: string; createdBy?: string }): Promise<EmailCampaign>;
   getCampaigns(): Promise<EmailCampaign[]>;
   getCampaign(id: number): Promise<EmailCampaign | undefined>;
   updateCampaignStatus(id: number, status: string, sentCount?: number): Promise<EmailCampaign | undefined>;
+
+  // Google Forms
+  createGoogleFormLink(data: { title: string; formUrl: string; sheetCsvUrl?: string; linkedTo: string; linkedId?: string }): Promise<GoogleFormLink>;
+  getGoogleFormLinks(): Promise<GoogleFormLink[]>;
+  deleteGoogleFormLink(id: number): Promise<boolean>;
+
+  // Admin stats
+  getAdminStats(): Promise<{
+    applications: { total: number; pending: number; approved: number; rejected: number };
+    students: { total: number; byTrack: Record<string, number> };
+    events: { total: number; totalRsvps: number };
+    messages: { total: number; unread: number };
+    emailsSent: number;
+  }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -102,6 +120,15 @@ export class DatabaseStorage implements IStorage {
   async deleteCohortApplication(id: number): Promise<boolean> {
     const result = await db.delete(cohortApplications).where(eq(cohortApplications.id, id)).returning();
     return result.length > 0;
+  }
+
+  async bulkUpdateApplicationStatus(ids: number[], status: string): Promise<number> {
+    if (ids.length === 0) return 0;
+    const result = await db.update(cohortApplications)
+      .set({ status })
+      .where(inArray(cohortApplications.id, ids))
+      .returning();
+    return result.length;
   }
 
   async createEvent(event: InsertEvent): Promise<Event> {
@@ -171,6 +198,10 @@ export class DatabaseStorage implements IStorage {
     return result.length > 0;
   }
 
+  async markContactMessageRead(id: number): Promise<void> {
+    await db.update(contactMessages).set({ isRead: true }).where(eq(contactMessages.id, id));
+  }
+
   // ─── Email Queue ────────────────────────────────────────────
 
   async enqueueEmail(data: { to: string; subject: string; html: string; scheduledFor: Date; triggerType?: string; triggerRefId?: number }): Promise<EmailQueueItem> {
@@ -191,6 +222,10 @@ export class DatabaseStorage implements IStorage {
 
   async markEmailFailed(id: number, errorMessage: string): Promise<void> {
     await db.update(emailQueue).set({ status: "failed", errorMessage }).where(eq(emailQueue.id, id));
+  }
+
+  async getEmailLog(limit: number): Promise<EmailQueueItem[]> {
+    return db.select().from(emailQueue).orderBy(desc(emailQueue.createdAt)).limit(limit);
   }
 
   // ─── Email Campaigns ───────────────────────────────────────
@@ -215,6 +250,51 @@ export class DatabaseStorage implements IStorage {
     if (sentCount !== undefined) updates.sentCount = sentCount;
     const [result] = await db.update(emailCampaigns).set(updates).where(eq(emailCampaigns.id, id)).returning();
     return result;
+  }
+
+  // ─── Google Forms ──────────────────────────────────────────
+
+  async createGoogleFormLink(data: { title: string; formUrl: string; sheetCsvUrl?: string; linkedTo: string; linkedId?: string }): Promise<GoogleFormLink> {
+    const [result] = await db.insert(googleFormLinks).values(data).returning();
+    return result;
+  }
+
+  async getGoogleFormLinks(): Promise<GoogleFormLink[]> {
+    return db.select().from(googleFormLinks).orderBy(desc(googleFormLinks.createdAt));
+  }
+
+  async deleteGoogleFormLink(id: number): Promise<boolean> {
+    const result = await db.delete(googleFormLinks).where(eq(googleFormLinks.id, id)).returning();
+    return result.length > 0;
+  }
+
+  // ─── Admin Stats ───────────────────────────────────────────
+
+  async getAdminStats() {
+    const apps = await db.select().from(cohortApplications);
+    const allEvents = await db.select().from(events);
+    const allRsvps = await db.select().from(eventRsvps);
+    const msgs = await db.select().from(contactMessages);
+    const sentEmails = await db.select().from(emailQueue).where(eq(emailQueue.status, "sent"));
+
+    const pending = apps.filter(a => a.status === "pending").length;
+    const approved = apps.filter(a => a.status === "approved").length;
+    const rejected = apps.filter(a => a.status === "rejected").length;
+
+    const byTrack: Record<string, number> = {};
+    for (const a of apps.filter(a => a.status === "approved")) {
+      byTrack[a.trackId] = (byTrack[a.trackId] || 0) + 1;
+    }
+
+    const unread = msgs.filter(m => !m.isRead).length;
+
+    return {
+      applications: { total: apps.length, pending, approved, rejected },
+      students: { total: approved, byTrack },
+      events: { total: allEvents.length, totalRsvps: allRsvps.length },
+      messages: { total: msgs.length, unread },
+      emailsSent: sentEmails.length,
+    };
   }
 }
 
