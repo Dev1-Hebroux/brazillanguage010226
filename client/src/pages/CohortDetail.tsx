@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { BookOpen, GraduationCap, Target, ChevronLeft, Languages, Globe } from "lucide-react";
+import { BookOpen, GraduationCap, Target, ChevronLeft, Languages, Globe, Sparkles } from "lucide-react";
 import CohortApplicationForm from "@/components/CohortApplicationForm";
 
 export default function CohortDetail() {
@@ -190,6 +190,15 @@ export default function CohortDetail() {
                               </div>
                               <div className="text-sm text-green-800/80">{w.latinAmericanFocus}</div>
                             </div>
+                          )}
+
+                          {w.week === 1 && (
+                            <Link href={`/tasters?track=${track.id}&week=1`}>
+                              <Button variant="outline" className="rounded-xl font-bold">
+                                <Sparkles className="w-4 h-4 mr-2" />
+                                Try Week 1 Taster
+                              </Button>
+                            </Link>
                           )}
                         </div>
                       </AccordionContent>

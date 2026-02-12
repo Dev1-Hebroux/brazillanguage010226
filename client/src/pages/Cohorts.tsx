@@ -118,11 +118,18 @@ export default function Cohorts() {
                 </CardContent>
 
                 <CardFooter className="pt-2 pb-6 md:pb-8">
-                  <Link href={`/cohorts/${track.id}`} className="w-full">
-                    <Button size="lg" className={`w-full rounded-xl text-lg h-14 font-bold shadow-lg transition-all active:scale-[0.98] ${colors.btn}`}>
-                      View Cohort
-                    </Button>
-                  </Link>
+                  <div className="w-full flex flex-col gap-3">
+                    <Link href={`/cohorts/${track.id}`} className="w-full">
+                      <Button size="lg" className={`w-full rounded-xl text-lg h-14 font-bold shadow-lg transition-all active:scale-[0.98] ${colors.btn}`}>
+                        View Cohort
+                      </Button>
+                    </Link>
+                    <Link href={`/tasters?track=${track.id}&week=1`} className="w-full">
+                      <Button size="lg" variant="outline" className="w-full rounded-xl text-base h-12 font-bold">
+                        Try Week 1 Taster
+                      </Button>
+                    </Link>
+                  </div>
                 </CardFooter>
               </Card>
             );
