@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { insertUserSchema, type UserRole } from "@shared/schema";
 import { z } from "zod";
